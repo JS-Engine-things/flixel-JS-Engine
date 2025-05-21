@@ -1,5 +1,10 @@
 package flixel.sound;
 
+import lime.system.CFFIPointer;
+import lime.media.openal.ALEffect;
+import lime.media.openal.ALAuxiliaryEffectSlot;
+import lime.media.openal.ALFilter;
+import lime.media.openal.AL;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.math.FlxMath;
@@ -24,8 +29,45 @@ import openfl.utils.AssetType;
 /**
  * This is the universal flixel sound object, used for streaming, music, and sound effects.
  */
+enum SoundContext
+{
+	SFX;
+	MUSIC;
+	MISC;
+}
+
 class FlxSound extends FlxBasic
 {
+	// this uses some code from troll engine for audio effects
+	// made by NebulaZorua
+	public var context:SoundContext = SFX;
+	
+	var effectAux:ALAuxiliaryEffectSlot = AL.createAux(); // TODO: add removeAux
+	
+	/**
+	 * Filter which gets applied to the sound
+	 */
+	public var filter(default, set):ALFilter;
+	
+	function set_filter(v:ALFilter)
+	{
+		filter = v;
+		updateTransform();
+		return filter;
+	}
+	
+	/**
+	 * Effect which gets applied to the sound
+	 */
+	public var effect(default, set):Null<ALEffect>;
+	
+	function set_effect(v:ALEffect)
+	{
+		effect = v;
+		updateTransform();
+		return effect;
+	}
+	
 	/**
 	 * The x position of this sound in world coordinates.
 	 * Only really matters if you are doing proximity/panning stuff.
@@ -244,6 +286,7 @@ class FlxSound extends FlxBasic
 		amplitudeLeft = 0;
 		amplitudeRight = 0;
 		autoDestroy = false;
+		effect = null;
 		
 		if (_transform == null)
 			_transform = new SoundTransform();
@@ -592,11 +635,38 @@ class FlxSound extends FlxBasic
 	@:allow(flixel.sound.FlxSoundGroup)
 	function updateTransform():Void
 	{
-		_transform.volume = #if FLX_SOUND_SYSTEM (FlxG.sound.muted ? 0 : 1) * FlxG.sound.volume * #end
-			(group != null ? group.volume : 1) * _volume * _volumeAdjust;
+		if (_transform != null)
+		{
+			_transform.volume = #if FLX_SOUND_SYSTEM (FlxG.sound.muted ? 0 : 1) * FlxG.sound.volume * #end
+				(group != null ? group.volume : 1) * _volume * _volumeAdjust;
+		}
 			
 		if (_channel != null)
 			_channel.soundTransform = _transform;
+		#if cpp
+		@:privateAccess
+		{
+			if (_channel != null && _channel.__source != null)
+			{
+				this._channel.__source.__backend.setPitch(_pitch);
+				
+				var handle = this._channel.__source.__backend.handle;
+				if (filter != null)
+					AL.sourcei(handle, AL.DIRECT_FILTER, filter);
+				else
+					AL.removeDirectFilter(handle);
+					
+				if (effect != null)
+				{
+					var cffi:CFFIPointer = cast filter;
+					AL.auxi(effectAux, AL.EFFECTSLOT_EFFECT, effect);
+					AL.source3i(handle, AL.AUXILIARY_SEND_FILTER, effectAux, 0, filter == null ? AL.FILTER_NULL : Std.int(cffi.get()));
+				}
+				else
+					AL.source3i(handle, AL.AUXILIARY_SEND_FILTER, AL.FILTER_NULL, 0, AL.FILTER_NULL);
+			}
+		}
+		#end
 	}
 	
 	/**
