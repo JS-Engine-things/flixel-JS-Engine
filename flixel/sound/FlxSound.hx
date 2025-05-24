@@ -820,7 +820,7 @@ class FlxSound extends FlxBasic
 	{
 		if (_channel != null)
 		{
-			#if (openfl < "9.3.0")
+			#if (openfl < "9.3.2")
 			@:privateAccess
 			if (_channel.__source != null)
 				_channel.__source.pitch = v;
