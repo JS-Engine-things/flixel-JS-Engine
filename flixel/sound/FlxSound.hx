@@ -646,13 +646,12 @@ class FlxSound extends FlxBasic
 		#if cpp
 		@:privateAccess
 		{
-			final source = #if (openfl <= "9.2.2") _channel.__source; #else _channel.__audioSource; #end
+			final source = #if (openfl <= "9.2.2") this._channel.__source; #else this._channel.__audioSource; #end
 			if (_channel != null && source != null)
 			{
-				final ass = #if (openfl <= "9.2.2") this._channel.__source; #else this._channel.__audioSource; #end
-				ass.__backend.setPitch(_pitch);
+				source.__backend.setPitch(_pitch);
 				
-				var handle = ass.__backend.handle;
+				var handle = source.__backend.handle;
 				if (filter != null)
 					AL.sourcei(handle, AL.DIRECT_FILTER, filter);
 				else
