@@ -634,7 +634,7 @@ class FlxSound extends FlxBasic
 	 */
 	@:allow(flixel.sound.FlxSoundGroup)
 	function updateTransform():Void
-	{		
+	{
 		if (_transform != null)
 		{
 			_transform.volume = #if FLX_SOUND_SYSTEM (FlxG.sound.muted ? 0 : 1) * FlxG.sound.volume * #end
@@ -646,12 +646,11 @@ class FlxSound extends FlxBasic
 		#if cpp
 		@:privateAccess
 		{
-			final source = #if (openfl <= "9.2.2") this._channel.__source; #else this._channel.__audioSource; #end
-			if (_channel != null && source != null)
+			if (_channel != null && _channel.__audioSource != null)
 			{
-				source.__backend.setPitch(_pitch);
+				this._channel.__audioSource.__backend.setPitch(_pitch);
 				
-				var handle = source.__backend.handle;
+				var handle = this._channel.__audioSource.__backend.handle;
 				if (filter != null)
 					AL.sourcei(handle, AL.DIRECT_FILTER, filter);
 				else
@@ -821,7 +820,7 @@ class FlxSound extends FlxBasic
 	{
 		if (_channel != null)
 		{
-			#if (openfl < "9.3.2")
+			#if (openfl < "9.3.0")
 			@:privateAccess
 			if (_channel.__source != null)
 				_channel.__source.pitch = v;
