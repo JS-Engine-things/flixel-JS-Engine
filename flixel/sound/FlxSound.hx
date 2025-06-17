@@ -290,7 +290,7 @@ class FlxSound extends FlxBasic
 		amplitudeLeft = 0;
 		amplitudeRight = 0;
 		autoDestroy = false;
-		if #FLX_SOUND_FILTERS
+		#if FLX_SOUND_FILTERS
 		effect = null;
 		#end
 		
