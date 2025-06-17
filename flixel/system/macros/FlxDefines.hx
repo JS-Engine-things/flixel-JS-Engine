@@ -37,6 +37,8 @@ private enum UserDefines
 	FLX_NO_POINT_POOL;
 	FLX_NO_PITCH;
 	FLX_NO_SAVE;
+	// custom shit we use
+	FLX_SOUND_FILTERS;
 }
 
 /**

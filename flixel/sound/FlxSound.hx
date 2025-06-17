@@ -1,10 +1,12 @@
 package flixel.sound;
 
+#if FLX_SOUND_FILTERS
 import lime.system.CFFIPointer;
 import lime.media.openal.ALEffect;
 import lime.media.openal.ALAuxiliaryEffectSlot;
 import lime.media.openal.ALFilter;
 import lime.media.openal.AL;
+#end
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.math.FlxMath;
@@ -40,6 +42,7 @@ class FlxSound extends FlxBasic
 {
 	// this uses some code from troll engine for audio effects
 	// made by NebulaZorua
+	#if FLX_SOUND_FILTERS
 	public var context:SoundContext = SFX;
 	
 	var effectAux:ALAuxiliaryEffectSlot = AL.createAux(); // TODO: add removeAux
@@ -67,6 +70,7 @@ class FlxSound extends FlxBasic
 		updateTransform();
 		return effect;
 	}
+	#end
 	
 	/**
 	 * The x position of this sound in world coordinates.
@@ -643,7 +647,7 @@ class FlxSound extends FlxBasic
 			
 		if (_channel != null)
 			_channel.soundTransform = _transform;
-		#if cpp
+		#if (FLX_SOUND_FILTERS && cpp)
 		@:privateAccess
 		{
 			if (_channel != null && _channel.__audioSource != null)
