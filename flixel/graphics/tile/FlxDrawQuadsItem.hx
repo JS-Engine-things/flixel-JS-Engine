@@ -117,7 +117,7 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 
 		try {
 			var shader = shader != null ? shader : graphics.shader;
-			if (shader == null) // bitch
+			if (shader == null || graphics == null || shader.bitmap == null || graphics.bitmap == null) // bitch
 				return;
 	
 			shader.bitmap.input = graphics.bitmap;
