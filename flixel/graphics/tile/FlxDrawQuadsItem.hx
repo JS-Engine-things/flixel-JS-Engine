@@ -3,11 +3,11 @@ package flixel.graphics.tile;
 import flixel.FlxCamera;
 import flixel.graphics.frames.FlxFrame;
 import flixel.graphics.tile.FlxDrawBaseItem.FlxDrawItemType;
-import flixel.system.FlxAssets.FlxShader;
 import flixel.math.FlxMatrix;
-import openfl.geom.ColorTransform;
-import openfl.display.ShaderParameter;
+import flixel.system.FlxAssets.FlxShader;
 import openfl.Vector;
+import openfl.display.ShaderParameter;
+import openfl.geom.ColorTransform;
 
 class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 {
@@ -116,6 +116,9 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 			return;
 
 		var shader = shader != null ? shader : graphics.shader;
+		if (shader == null) // bitch
+			return;
+
 		shader.bitmap.input = graphics.bitmap;
 		shader.bitmap.filter = (camera.antialiasing || antialiasing) ? LINEAR : NEAREST;
 		shader.alpha.value = alphas;
