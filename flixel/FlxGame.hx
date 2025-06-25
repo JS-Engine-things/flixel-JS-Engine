@@ -513,9 +513,10 @@ class FlxGame extends Sprite
 	 */
 	function onEnterFrame(_):Void
 	{
+		final timer = getTimer();
 		ticks = getTicks();
-		_elapsedMS = ticks - _total;
-		_total = ticks;
+		_elapsedMS = timer - _total;
+		_total = timer;
 
 		#if FLX_SOUND_TRAY
 		if (soundTray != null && soundTray.active)
