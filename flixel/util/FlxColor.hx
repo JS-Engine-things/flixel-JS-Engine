@@ -15,6 +15,13 @@ import flixel.system.macros.FlxMacroUtil;
  *
  * @author Joe Williamson (JoeCreates)
  */
+// idk why this BS happens, but apparently constants can conflict
+// and something in Windows API is conflicting, so blame Microsoft for that ig
+#if (cpp && windows)
+@:headerCode('
+#undef TRANSPARENT
+')
+#end
 abstract FlxColor(Int) from Int from UInt to Int to UInt
 {
 	public static inline var TRANSPARENT:FlxColor = 0x00000000;
