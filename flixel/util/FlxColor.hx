@@ -19,7 +19,9 @@ import flixel.system.macros.FlxMacroUtil;
 // and something in Windows API is conflicting, so blame Microsoft for that ig
 #if (cpp && windows)
 @:headerCode('
+#ifdef TRANSPARENT
 #undef TRANSPARENT
+#endif
 ')
 #end
 abstract FlxColor(Int) from Int from UInt to Int to UInt
