@@ -38,6 +38,12 @@ class FlxBasic implements IFlxDestroyable
 	 * Controls whether `draw()` is automatically called by `FlxState`/`FlxGroup`.
 	 */
 	public var visible(default, set):Bool = true;
+	
+	/**
+	 * An index that sorts the FlxBasic when `draw()` is called by `FlxState`/`FlxGroup`.
+	 * This produces easy layer sorting, not being needed to rely on `add()` or `insert()`.
+	 */
+	public var renderOrder:Int = 0;
 
 	/**
 	 * Useful state for many game objects - "dead" (`!alive`) vs `alive`. `kill()` and
@@ -61,6 +67,12 @@ class FlxBasic implements IFlxDestroyable
 	 * as well as the `DefaultDrawTarget` argument of `FlxG.camera.add`.
 	 */
 	public var cameras(get, set):Array<FlxCamera>;
+	
+	/**
+	 * The z-index of this object, used for dynamically
+	 * layering objects after adding them to groups.
+	 */
+	public var zIndex:Int = 0;
 
 	/**
 	 * Enum that informs the collision system which type of object this is (to avoid expensive type casting).

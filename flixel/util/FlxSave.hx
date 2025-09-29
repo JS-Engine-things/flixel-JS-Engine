@@ -55,7 +55,6 @@ import openfl.net.SharedObjectFlushStatus;
 @:allow(flixel.util.FlxSharedObject)
 class FlxSave implements IFlxDestroyable
 {
-	
 	static var invalidChars = ~/[ ~%&\\;:"',<>?#]+/g;
 	
 	/**
