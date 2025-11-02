@@ -100,7 +100,7 @@ class FlxTypedGroup<T:FlxBasic> extends FlxBasic
 	/**
 	 * Method used to sort the `FlxBasic` objects that are about to be drawn.
 	 */
-	public var renderOrderMode:RenderOrderMode = BY_RENDERORDER;
+	public var renderOrderMode:FlxRenderingMode = BY_RENDERORDER;
 
 	function get_zIndexesAllowed():Bool return renderOrderMode == BY_RENDERORDER;
 	function set_zIndexesAllowed(v:Bool):Bool {

@@ -76,7 +76,8 @@ class FlxBasic implements IFlxDestroyable
 	 * layering objects after adding them to groups.
 	 * Used as an 
 	 */
-	public var zIndex(get, set):Int = 0;
+	@:isVar
+	public var zIndex(get, set):Float = 0;
 	#end
 
 	/**
@@ -211,13 +212,13 @@ class FlxBasic implements IFlxDestroyable
 	}
 	#if !FLX_NO_RENDER_ORDER
 	@:noCompletion
-	function get_zIndex():Int
+	function get_zIndex():Float
 	{
 		return renderOrder;
 	}
 	
 	@:noCompletion
-	function set_zIndex(Value:Int):Int
+	function set_zIndex(Value:Float):Float
 	{
 		renderOrder = Value;
 		return Value;
