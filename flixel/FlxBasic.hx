@@ -39,11 +39,13 @@ class FlxBasic implements IFlxDestroyable
 	 */
 	public var visible(default, set):Bool = true;
 	
+	#if !FLX_NO_RENDER_ORDER
 	/**
 	 * An index that sorts the FlxBasic when `draw()` is called by `FlxState`/`FlxGroup`.
 	 * This produces easy layer sorting, not being needed to rely on `add()` or `insert()`.
 	 */
-	public var renderOrder:Int = 0;
+	public var renderOrder:Float = 0;
+	#end
 
 	/**
 	 * Useful state for many game objects - "dead" (`!alive`) vs `alive`. `kill()` and
@@ -68,11 +70,14 @@ class FlxBasic implements IFlxDestroyable
 	 */
 	public var cameras(get, set):Array<FlxCamera>;
 	
+	#if !FLX_NO_RENDER_ORDER
 	/**
 	 * The z-index of this object, used for dynamically
 	 * layering objects after adding them to groups.
+	 * Used as an 
 	 */
-	public var zIndex:Int = 0;
+	public var zIndex(get, set):Int = 0;
+	#end
 
 	/**
 	 * Enum that informs the collision system which type of object this is (to avoid expensive type casting).
@@ -204,6 +209,20 @@ class FlxBasic implements IFlxDestroyable
 			_cameras[0] = Value;
 		return Value;
 	}
+	#if !FLX_NO_RENDER_ORDER
+	@:noCompletion
+	function get_zIndex():Int
+	{
+		return renderOrder;
+	}
+	
+	@:noCompletion
+	function set_zIndex(Value:Int):Int
+	{
+		renderOrder = Value;
+		return Value;
+	}
+	#end
 	
 	/**
 	 * The cameras that will draw this. Use `this.cameras` to set specific cameras for this object,
