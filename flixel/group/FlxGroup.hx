@@ -217,6 +217,13 @@ class FlxTypedGroup<T:FlxBasic> extends FlxBasic
 		if (renderOrderMode & FlxRenderingMode.BY_RENDERORDER != 0)
 			_drawMemberIndices.sort((a, b) ->
 			{
+				var mA = members[a];
+				var mB = members[b];
+
+				if (mA == null && mB == null) return 0;
+				if (mA == null) return 1;
+				if (mB == null) return -1;
+
 				return FlxSort.byValues(FlxSort.ASCENDING, members[a].renderOrder, members[b].renderOrder);
 			});
 
