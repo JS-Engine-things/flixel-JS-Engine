@@ -709,7 +709,7 @@ class FlxAnimationController implements IFlxDestroyable
 			callback(name, number, frameIndex);
 		}
 
-		onFrameChange.dispatch(name, number, frameIndex);
+		onFrameChange?.dispatch(name, number, frameIndex);
 	}
 
 	@:allow(flixel.animation)
@@ -719,7 +719,7 @@ class FlxAnimationController implements IFlxDestroyable
 		{
 			finishCallback(name);
 		}
-		onFinish.dispatch(name);
+		onFinish?.dispatch(name);
 	}
 
 	function byNamesHelper(addTo:Array<Int>, frameNames:Array<String>):Void
