@@ -905,21 +905,6 @@ class FlxGamepad implements IFlxDestroyable
 			LabelValuePair.weak("deadZone", deadZone)
 		]);
 	}
-	
-	/**
-	 * Rumble the controller.
-	 *
-	 * @param	lowFrequencyRumble The strength to be applied to the large (left / low frequency) motor. 
-	 * @param	highFrequencyRumble The strength to be applied to the small (right / high frequency) motor.
-	 * @param	duration The length of the rumble effect in milliseconds
-	 */
-	public inline function rumble(lowFrequencyRumble:Float, highFrequencyRumble:Float, duration:Int):Void
-	{
-		#if FLX_GAMEINPUT_API
-		if (_device != null)
-			_device.rumble(lowFrequencyRumble, highFrequencyRumble, duration);
-		#end
-	}
 }
 
 enum FlxGamepadDeadZoneMode
