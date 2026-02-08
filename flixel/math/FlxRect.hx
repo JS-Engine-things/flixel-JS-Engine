@@ -1,9 +1,9 @@
 package flixel.math;
 
-import openfl.geom.Rectangle;
-import flixel.util.FlxPool;
 import flixel.util.FlxPool.IFlxPooled;
+import flixel.util.FlxPool;
 import flixel.util.FlxStringUtil;
+import openfl.geom.Rectangle;
 
 /**
  * Stores a rectangle.
@@ -449,6 +449,19 @@ class FlxRect implements IFlxPooled
 
 		rect.putWeak();
 		return result.set(x0, y0, x1 - x0, y1 - y0);
+	}
+
+	/**
+	 * Resizes `this` instance so that it fits within the intersection of the this and
+	 * the target rect. If there is no overlap between them, The result is an empty rect.
+	 *
+	 * @param   rect    Rectangle to check intersection against
+	 * @return  This rect, useful for chaining
+	 * @since 5.9.0
+	 */
+	public function clipTo(rect:FlxRect):FlxRect
+	{
+		return rect.intersection(this, this);
 	}
 
 	/**
