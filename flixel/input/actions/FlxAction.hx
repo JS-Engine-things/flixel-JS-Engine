@@ -341,7 +341,7 @@ class FlxAction implements IFlxDestroyable
 	var _x:Null<Float> = null;
 	var _y:Null<Float> = null;
 
-	var _timestamp:Float = 0;
+	var _check:Bool = false;
 	var _checked:Bool = false;
 
 	/**
@@ -438,13 +438,13 @@ class FlxAction implements IFlxDestroyable
 		_x = null;
 		_y = null;
 
-		if (_timestamp == FlxG.game.ticks)
+		if (_check)
 		{
 			triggered = _checked;
 			return _checked; // run no more than once per frame
 		}
 
-		_timestamp = FlxG.game.ticks;
+		_check = false;
 		_checked = false;
 
 		var len = inputs != null ? inputs.length : 0;
@@ -476,6 +476,7 @@ class FlxAction implements IFlxDestroyable
 	 */
 	public function update():Void
 	{
+		_check = true;
 		check();
 	}
 
