@@ -5,14 +5,6 @@ import flixel.input.gamepad.id.LogitechID;
 
 class LogitechMapping extends FlxGamepadMapping
 {
-	#if FLX_JOYSTICK_API
-	static inline var LEFT_ANALOG_STICK_FAKE_X:Int = 20;
-	static inline var LEFT_ANALOG_STICK_FAKE_Y:Int = 21;
-
-	static inline var RIGHT_ANALOG_STICK_FAKE_X:Int = 22;
-	static inline var RIGHT_ANALOG_STICK_FAKE_Y:Int = 23;
-	#end
-
 	override function initValues():Void
 	{
 		leftStick = LogitechID.LEFT_ANALOG_STICK;
@@ -81,10 +73,6 @@ class LogitechMapping extends FlxGamepadMapping
 			case RIGHT_STICK_DIGITAL_DOWN: LogitechID.RIGHT_ANALOG_STICK.rawDown;
 			case RIGHT_STICK_DIGITAL_LEFT: LogitechID.RIGHT_ANALOG_STICK.rawLeft;
 			case RIGHT_STICK_DIGITAL_RIGHT: LogitechID.RIGHT_ANALOG_STICK.rawRight;
-			#if FLX_JOYSTICK_API
-			case LEFT_TRIGGER_FAKE: LogitechID.SEVEN;
-			case RIGHT_TRIGGER_FAKE: LogitechID.EIGHT;
-			#end
 			default: super.getRawID(ID);
 		}
 	}
@@ -104,23 +92,7 @@ class LogitechMapping extends FlxGamepadMapping
 			case RIGHT_SHOULDER: "6";
 			case LEFT_TRIGGER: "7";
 			case RIGHT_TRIGGER: "8";
-			#if FLX_JOYSTICK_API
-			case LEFT_TRIGGER_FAKE: "7";
-			case RIGHT_TRIGGER_FAKE: "8";
-			#end
 			default: super.getInputLabel(id);
 		}
 	}
-
-	#if FLX_JOYSTICK_API
-	override public function axisIndexToRawID(axisID:Int):Int
-	{
-		return if (axisID == leftStick.x) LEFT_ANALOG_STICK_FAKE_X; else if (axisID == leftStick.y) LEFT_ANALOG_STICK_FAKE_Y; else if (axisID == rightStick.x)
-			RIGHT_ANALOG_STICK_FAKE_X;
-		else if (axisID == rightStick.y)
-			RIGHT_ANALOG_STICK_FAKE_Y;
-		else
-			axisID; // return what was passed in, no overlaps for other IDs
-	}
-	#end
 }

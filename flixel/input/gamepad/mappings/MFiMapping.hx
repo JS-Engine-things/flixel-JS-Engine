@@ -71,19 +71,7 @@ class MFiMapping extends FlxGamepadMapping
 			case RIGHT_STICK_DIGITAL_DOWN: MFiID.RIGHT_ANALOG_STICK.rawDown;
 			case RIGHT_STICK_DIGITAL_LEFT: MFiID.RIGHT_ANALOG_STICK.rawLeft;
 			case RIGHT_STICK_DIGITAL_RIGHT: MFiID.RIGHT_ANALOG_STICK.rawRight;
-			#if FLX_JOYSTICK_API
-			case LEFT_TRIGGER_FAKE: MFiID.LEFT_TRIGGER;
-			case RIGHT_TRIGGER_FAKE: MFiID.RIGHT_TRIGGER;
-			#end
 			default: super.getRawID(ID);
 		}
 	}
-
-	#if FLX_JOYSTICK_API
-	override public function axisIndexToRawID(axisID:Int):Int
-	{
-		// the axis index values for this don't overlap with anything so we can just return the original values!
-		return axisID;
-	}
-	#end
 }

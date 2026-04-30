@@ -15,10 +15,6 @@ import lime.system.System;
 #if desktop
 import openfl.events.FocusEvent;
 #end
-#if FLX_POST_PROCESS
-import flixel.effects.postprocess.PostProcess;
-import openfl.display.OpenGLView;
-#end
 #if FLX_DEBUG
 import flixel.system.debug.FlxDebugger;
 #end
@@ -194,18 +190,6 @@ class FlxGame extends Sprite
 	 */
 	var _resetGame:Bool = false;
 
-	#if FLX_POST_PROCESS
-	/**
-	 * `Sprite` for postprocessing effects
-	 */
-	var postProcessLayer:Sprite = new Sprite();
-
-	/**
-	 * Post process effects active on the `postProcessLayer`.
-	 */
-	var postProcesses:Array<PostProcess> = [];
-	#end
-
 	/**
 	 * Instantiate a new game object.
 	 *
@@ -289,11 +273,6 @@ class FlxGame extends Sprite
 		stage.frameRate = FlxG.drawFramerate;
 
 		addChild(_inputContainer);
-
-		#if FLX_POST_PROCESS
-		if (OpenGLView.isSupported)
-			addChild(postProcessLayer);
-		#end
 
 		// Creating the debugger overlay
 		#if FLX_DEBUG
@@ -446,11 +425,6 @@ class FlxGame extends Sprite
 		#if FLX_SOUND_TRAY
 		if (soundTray != null)
 			soundTray.screenCenter();
-		#end
-
-		#if FLX_POST_PROCESS
-		for (postProcess in postProcesses)
-			postProcess.rebuild();
 		#end
 	}
 
@@ -651,11 +625,6 @@ class FlxGame extends Sprite
 
 		updateInput();
 
-		#if FLX_POST_PROCESS
-		if (postProcesses[0] != null)
-			postProcesses[0].update(FlxG.elapsed);
-		#end
-
 		#if FLX_SOUND_SYSTEM
 		FlxG.sound.update(FlxG.elapsed);
 		#end
@@ -715,11 +684,6 @@ class FlxGame extends Sprite
 
 		if (FlxG.renderTile)
 			FlxDrawBaseItem.drawCalls = 0;
-
-		#if FLX_POST_PROCESS
-		if (postProcesses[0] != null)
-			postProcesses[0].capture();
-		#end
 
 		FlxG.cameras.lock();
 

@@ -4,15 +4,12 @@
 		"FLX_MOUSE_ADVANCED",
 		"FLX_NATIVE_CURSOR",
 		"FLX_SOUND_TRAY",
-		"FLX_POINTER_INPUT",
-		"FLX_POST_PROCESS"
+		"FLX_POINTER_INPUT"
 	],
 	"defineCombinations": [
-		["FLX_JOYSTICK_API"],
 		["FLX_GAMEINPUT_API"],
-		["flash", "web"],
 		["html5", "js", "web"],
-		["neko", "desktop", "sys"],
+		["desktop", "sys"],
 		["android", "cpp", "mobile"]
 	],
 	"exclude": {

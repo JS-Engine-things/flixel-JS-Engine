@@ -28,8 +28,6 @@ private enum UserDefines
 	FLX_UNIT_TEST;
 	/* Defined in HaxeFlixel CI tests, do not use */
 	FLX_COVERAGE_TEST;
-	/* Defined in HaxeFlixel CI tests, do not use */
-	FLX_SWF_VERSION_TEST;
 	/* additional rendering define */
 	FLX_RENDER_TRIANGLE;
 	/* Uses flixel 4.0 legacy collision */
@@ -63,7 +61,6 @@ private enum HelperDefines
 	FLX_NATIVE_CURSOR;
 	FLX_SOUND_TRAY;
 	FLX_POINTER_INPUT;
-	FLX_POST_PROCESS;
 	FLX_JOYSTICK_API;
 	FLX_GAMEINPUT_API;
 	FLX_ACCELEROMETER;
@@ -74,8 +71,6 @@ private enum HelperDefines
 	FLX_NO_UNIT_TEST;
 	/* Used in HaxeFlixel CI, should have no effect on personal projects */
 	FLX_NO_COVERAGE_TEST;
-	/* Used in HaxeFlixel CI, should have no effect on personal projects */
-	FLX_NO_SWF_VERSION_TEST;
 	/* Used in HaxeFlixel CI, should have no effect on personal projects */
 	FLX_CI;
 	/* Used in HaxeFlixel CI, should have no effect on personal projects */
@@ -106,9 +101,7 @@ class FlxDefines
 		abortVersion("Haxe", "4.2.5 or newer", "haxe_ver", (macro null).pos);
 		#end
 
-		#if !nme
 		checkOpenFLVersions();
-		#end
 		
 		#if (flixel_addons < "3.0.2")
 		abortVersion("Flixel Addons", "3.0.2 or newer", "flixel-addons", (macro null).pos);
@@ -171,12 +164,11 @@ class FlxDefines
 		defineInversion(FLX_NO_POINT_POOL, FLX_POINT_POOL);
 		defineInversion(FLX_UNIT_TEST, FLX_NO_UNIT_TEST);
 		defineInversion(FLX_COVERAGE_TEST, FLX_NO_COVERAGE_TEST);
-		defineInversion(FLX_SWF_VERSION_TEST, FLX_NO_SWF_VERSION_TEST);
 	}
 
 	static function defineHelperDefines()
 	{
-		if (defined(FLX_UNIT_TEST) || defined(FLX_COVERAGE_TEST) || defined(FLX_SWF_VERSION_TEST))
+		if (defined(FLX_UNIT_TEST) || defined(FLX_COVERAGE_TEST))
 			define(FLX_CI);
 		else
 			define(FLX_NO_CI);
@@ -204,20 +196,9 @@ class FlxDefines
 			define(FLX_SAVE);
 		
 		define(FLX_GAMEINPUT_API);
-		if (!defined("openfl_next") && (defined("cpp")))
-			define(FLX_JOYSTICK_API);
-
-		#if nme
-		define(FLX_JOYSTICK_API);
-		#end
 
 		if (!defined(FLX_NO_TOUCH) || !defined(FLX_NO_MOUSE))
 			define(FLX_POINTER_INPUT);
-
-		#if (openfl < "4.0.0")
-		if (defined("cpp") || defined("neko"))
-			define(FLX_POST_PROCESS);
-		#end
 
 		if (defined("cpp") && defined("steamwrap"))
 			define(FLX_STEAMWRAP);

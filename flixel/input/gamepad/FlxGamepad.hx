@@ -24,9 +24,6 @@ import flixel.util.FlxStringUtil;
 import flixel.math.FlxMath;
 import openfl.ui.GameInputControl;
 import openfl.ui.GameInputDevice;
-#elseif FLX_JOYSTICK_API
-import flixel.math.FlxPoint;
-#end
 
 @:allow(flixel.input.gamepad)
 class FlxGamepad implements IFlxDestroyable
@@ -118,11 +115,6 @@ class FlxGamepad implements IFlxDestroyable
 	 * (contains continously updated X and Y coordinates, each between 0.0 and 1.0)
 	 */
 	public var pointer(default, null):FlxGamepadPointerValueList;
-	
-	#if FLX_JOYSTICK_API
-	public var hat(default, null):FlxPoint = FlxPoint.get();
-	public var ball(default, null):FlxPoint = FlxPoint.get();
-	#end
 	
 	var axis:Array<Float> = [for (i in 0...6) 0];
 	var axisActive:Bool = false;
@@ -229,27 +221,6 @@ class FlxGamepad implements IFlxDestroyable
 				button.press();
 			}
 		}
-		#elseif FLX_JOYSTICK_API
-		for (i in 0...axis.length)
-		{
-			// do a reverse axis lookup to get a "fake" RawID and generate a button state object
-			var button = getButton(mapping.axisIndexToRawID(i));
-			if (button != null)
-			{
-				// TODO: account for circular deadzone if an analog stick input is detected?
-				var value = applyAxisFlip(Math.abs(axis[i]), i);
-				if (value > deadZone)
-				{
-					button.press();
-				}
-				else if (value < deadZone)
-				{
-					button.release();
-				}
-			}
-			
-			axisActive = false;
-		}
 		#end
 		
 		for (button in buttons)
@@ -277,11 +248,6 @@ class FlxGamepad implements IFlxDestroyable
 		{
 			axis[i] = 0;
 		}
-		
-		#if FLX_JOYSTICK_API
-		hat.set();
-		ball.set();
-		#end
 	}
 	
 	public function destroy():Void
@@ -291,14 +257,6 @@ class FlxGamepad implements IFlxDestroyable
 		buttons = null;
 		axis = null;
 		manager = null;
-		
-		#if FLX_JOYSTICK_API
-		hat = FlxDestroyUtil.put(hat);
-		ball = FlxDestroyUtil.put(ball);
-		
-		hat = null;
-		ball = null;
-		#end
 	}
 	
 	/**
@@ -537,27 +495,7 @@ class FlxGamepad implements IFlxDestroyable
 	 */
 	public function getAxis(AxisButtonID:FlxGamepadInputID):Float
 	{
-		#if !FLX_JOYSTICK_API
 		return getAxisRaw(mapping.getRawID(AxisButtonID));
-		#else
-		var fakeAxisRawID:Int = mapping.checkForFakeAxis(AxisButtonID);
-		if (fakeAxisRawID == -1)
-		{
-			// return the regular axis value
-			var rawID = mapping.getRawID(AxisButtonID);
-			return applyAxisFlip(getAxisRaw(rawID), AxisButtonID);
-		}
-		else
-		{
-			// if analog isn't supported for this input, return the correct digital button input instead
-			var btn = getButton(fakeAxisRawID);
-			if (btn == null)
-				return 0;
-			if (btn.pressed)
-				return 1;
-		}
-		return 0;
-		#end
 	}
 	
 	/**
@@ -683,18 +621,6 @@ class FlxGamepad implements IFlxDestroyable
 				return true;
 			}
 		}
-		
-		#if FLX_JOYSTICK_API
-		if (ball.x != 0 || ball.y != 0)
-		{
-			return true;
-		}
-		
-		if (hat.x != 0 || hat.y != 0)
-		{
-			return true;
-		}
-		#end
 		
 		return false;
 	}

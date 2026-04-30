@@ -8,17 +8,6 @@ import flixel.input.gamepad.id.SwitchProID;
  */
 class SwitchProMapping extends FlxGamepadMapping
 {
-	#if FLX_JOYSTICK_API
-	static inline var LEFT_ANALOG_STICK_FAKE_X:Int = 32;
-	static inline var LEFT_ANALOG_STICK_FAKE_Y:Int = 33;
-
-	static inline var RIGHT_ANALOG_STICK_FAKE_X:Int = 34;
-	static inline var RIGHT_ANALOG_STICK_FAKE_Y:Int = 35;
-
-	static inline var LEFT_TRIGGER_FAKE:Int = 36;
-	static inline var RIGHT_TRIGGER_FAKE:Int = 37;
-	#end
-
 	override function initValues():Void
 	{
 		leftStick = SwitchProID.LEFT_ANALOG_STICK;
@@ -91,10 +80,6 @@ class SwitchProMapping extends FlxGamepadMapping
 			case RIGHT_STICK_DIGITAL_DOWN: SwitchProID.RIGHT_ANALOG_STICK.rawDown;
 			case RIGHT_STICK_DIGITAL_LEFT: SwitchProID.RIGHT_ANALOG_STICK.rawLeft;
 			case RIGHT_STICK_DIGITAL_RIGHT: SwitchProID.RIGHT_ANALOG_STICK.rawRight;
-			#if FLX_JOYSTICK_API
-			case LEFT_TRIGGER_FAKE: LEFT_TRIGGER_FAKE;
-			case RIGHT_TRIGGER_FAKE: RIGHT_TRIGGER_FAKE;
-			#end
 			case ACCEPT: SwitchProID.A;
 			case CANCEL: SwitchProID.B;
 			default: super.getRawID(ID);
@@ -120,25 +105,4 @@ class SwitchProMapping extends FlxGamepadMapping
 			case _: super.getInputLabel(id);
 		}
 	}
-	
-	#if FLX_JOYSTICK_API
-	override public function axisIndexToRawID(axisID:Int):Int
-	{
-		// Analog stick and trigger values overlap with regular buttons so we remap to "fake" button ID's
-		return if (axisID == leftStick.x)
-				LEFT_ANALOG_STICK_FAKE_X;
-			else if (axisID == leftStick.y)
-				LEFT_ANALOG_STICK_FAKE_Y;
-			else if (axisID == rightStick.x)
-				RIGHT_ANALOG_STICK_FAKE_X;
-			else if (axisID == rightStick.y)
-				RIGHT_ANALOG_STICK_FAKE_Y;
-			else if (axisID == SwitchProID.ZL)
-				LEFT_TRIGGER_FAKE;
-			else if (axisID == SwitchProID.ZR)
-				RIGHT_TRIGGER_FAKE;
-			else
-				axisID;
-	}
-	#end
 }

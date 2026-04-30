@@ -3,9 +3,6 @@ package flixel.input.gamepad.mappings;
 import flixel.input.gamepad.FlxGamepad.FlxGamepadAttachment;
 import flixel.input.gamepad.FlxGamepadAnalogStick;
 import flixel.input.gamepad.FlxGamepadInputID;
-#if flash
-import openfl.system.Capabilities;
-#end
 
 class FlxGamepadMapping
 {
@@ -77,22 +74,6 @@ class FlxGamepadMapping
 		return false;
 	}
 
-	#if FLX_JOYSTICK_API
-	/**
-	 * Given an axis index value like 0-6, figures out which input that
-	 * corresponds to and returns a "fake" ButtonID for that input
-	 */
-	public function axisIndexToRawID(axisID:Int):Int
-	{
-		return -1;
-	}
-
-	public function checkForFakeAxis(ID:FlxGamepadInputID):Int
-	{
-		return -1;
-	}
-	#end
-
 	function set_attachment(attachment:FlxGamepadAttachment):FlxGamepadAttachment
 	{
 		return this.attachment = attachment;
@@ -137,10 +118,6 @@ class FlxGamepadMapping
 			case RIGHT_STICK_DIGITAL_RIGHT: "rs-right";
 			case ACCEPT: getInputLabel(cast getRawID(id));
 			case CANCEL: getInputLabel(cast getRawID(id));
-			#if FLX_JOYSTICK_API
-			case LEFT_TRIGGER_FAKE: "l2";
-			case RIGHT_TRIGGER_FAKE: "r2";
-			#end
 			default: null;
 		}
 	}
