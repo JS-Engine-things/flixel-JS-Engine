@@ -25,15 +25,6 @@ class FlxGamepadMapping
 		if (attachment != null)
 			this.attachment = attachment;
 
-		#if flash
-		manufacturer = switch (Capabilities.manufacturer)
-		{
-			case "Google Pepper": GooglePepper;
-			case "Adobe Windows": AdobeWindows;
-			default: Unknown;
-		}
-		#end
-
 		initValues();
 	}
 

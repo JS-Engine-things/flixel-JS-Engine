@@ -20,40 +20,7 @@ import flixel.input.gamepad.FlxGamepadAnalogStick;
  */
 class PS4ID
 {
-	#if flash
-	public static inline var SQUARE:Int = 10;
-	public static inline var X:Int = 11;
-	public static inline var CIRCLE:Int = 12;
-	public static inline var TRIANGLE:Int = 13;
-	public static inline var L1:Int = 14;
-	public static inline var R1:Int = 15;
-	public static inline var L2:Int = 16;
-	public static inline var R2:Int = 17;
-	public static inline var SHARE:Int = 18;
-	public static inline var OPTIONS:Int = 19;
-	public static inline var LEFT_STICK_CLICK:Int = 20;
-	public static inline var RIGHT_STICK_CLICK:Int = 21;
-	public static inline var PS:Int = 22;
-	public static inline var TOUCHPAD_CLICK:Int = 23;
-
-	public static var LEFT_ANALOG_STICK(default, null) = new FlxGamepadAnalogStick(0, 1, {
-		up: 24,
-		down: 25,
-		left: 26,
-		right: 27
-	});
-	public static var RIGHT_ANALOG_STICK(default, null) = new FlxGamepadAnalogStick(2, 5, {
-		up: 28,
-		down: 29,
-		left: 30,
-		right: 31
-	});
-
-	public static inline var DPAD_UP:Int = 6;
-	public static inline var DPAD_DOWN:Int = 7;
-	public static inline var DPAD_LEFT:Int = 8;
-	public static inline var DPAD_RIGHT:Int = 9;
-	#elseif FLX_GAMEINPUT_API
+	#if FLX_GAMEINPUT_API
 	// #if (html5 || windows || mac || linux)
 	public static inline var X:Int = 6;
 	public static inline var CIRCLE:Int = 7;

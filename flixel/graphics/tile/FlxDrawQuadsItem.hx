@@ -109,7 +109,6 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 		}
 	}
 
-	#if !flash
 	override public function render(camera:FlxCamera):Void
 	{
 		if (rects.length == 0)
@@ -151,5 +150,4 @@ class FlxDrawQuadsItem extends FlxDrawBaseItem<FlxDrawQuadsItem>
 			parameter.value = [];
 		parameter.value[0] = value;
 	}
-	#end
 }

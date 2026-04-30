@@ -22,13 +22,9 @@ class FlxArrayUtil
 		if (diff >= 0)
 			return array;
 
-		#if flash
-		untyped array.length = newLength;
-		#else
 		diff = -diff;
 		for (i in 0...diff)
 			array.pop();
-		#end
 
 		return array;
 	}

@@ -412,7 +412,7 @@ class FlxGraphic implements IFlxDestroyable
 	 */
 	public function dump():Void
 	{
-		#if (lime_legacy && !flash)
+		#if (lime_legacy)
 		if (FlxG.renderTile && canBeDumped)
 		{
 			bitmap.dumpBits();

@@ -8,9 +8,7 @@ import flixel.math.FlxRect;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxColor;
 import openfl.Assets;
-#if !flash
 import lime.graphics.opengl.GL;
-#end
 
 /**
  * Internal storage system to prevent graphics from being used repeatedly in memory.
@@ -19,12 +17,10 @@ import lime.graphics.opengl.GL;
  */
 class BitmapFrontEnd
 {
-	#if !flash
 	/**
 	 * Gets max texture size for native targets
 	 */
 	public var maxTextureSize(get, never):Int;
-	#end
 
 	/**
 	 * Helper FlxFrame object. Containing only one frame.
@@ -391,12 +387,10 @@ class BitmapFrontEnd
 		}
 	}
 
-	#if !flash
 	function get_maxTextureSize():Int
 	{
 		return cast GL.getParameter(GL.MAX_TEXTURE_SIZE);
 	}
-	#end
 
 	function get_whitePixel():FlxFrame
 	{

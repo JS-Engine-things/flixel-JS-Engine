@@ -316,10 +316,7 @@ class FlxGame extends Sprite
 		#end
 
 		// Focus gained/lost monitoring
-		#if (desktop && openfl <= "4.0.0")
-		stage.addEventListener(FocusEvent.FOCUS_OUT, onFocusLost);
-		stage.addEventListener(FocusEvent.FOCUS_IN, onFocus);
-		#elseif (sys && openfl >= "9.3.0")
+		#if (sys && openfl >= "9.3.0")
 		stage.nativeWindow.addEventListener(Event.DEACTIVATE, onFocusLost);
 		stage.nativeWindow.addEventListener(Event.ACTIVATE, onFocus);
 		#else
@@ -349,11 +346,6 @@ class FlxGame extends Sprite
 
 	function onFocus(_):Void
 	{
-		#if flash
-		if (!_lostFocus)
-			return; // Don't run this function twice (bug in standalone flash player)
-		#end
-
 		#if (desktop && lime_legacy)
 		// make sure the on focus event doesn't fire on startup
 		if (!_onFocusFiredOnce)
@@ -398,11 +390,6 @@ class FlxGame extends Sprite
 			return;
 		#end
 
-		#if flash
-		if (_lostFocus)
-			return; // Don't run this function twice (bug in standalone flash player)
-		#end
-
 		_lostFocus = true;
 		FlxG.signals.focusLost.dispatch();
 		_state.onFocusLost();
@@ -432,10 +419,8 @@ class FlxGame extends Sprite
 		var width:Int = FlxG.stage.stageWidth;
 		var height:Int = FlxG.stage.stageHeight;
 
-		#if !flash
 		if (FlxG.renderTile)
 			FlxG.bitmap.onContext();
-		#end
 
 		resizeGame(width, height);
 	}

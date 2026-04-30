@@ -373,7 +373,7 @@ class FlxSave implements IFlxDestroyable
 @:access(openfl.net.SharedObject)
 private class FlxSharedObject extends SharedObject
 {
-	#if (flash || android || ios)
+	#if (android || ios)
 	/** Use SharedObject as usual */
 	public static inline function getLocal(name:String, ?localPath:String):SharedObject
 	{

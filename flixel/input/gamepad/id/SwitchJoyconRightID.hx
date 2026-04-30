@@ -21,32 +21,6 @@ import flixel.input.gamepad.FlxGamepadAnalogStick;
  */
 class SwitchJoyconRightID
 {
-	#if flash
-	public static inline var A:Int = 8;
-	public static inline var B:Int = 9;
-	public static inline var X:Int = 10;
-	public static inline var Y:Int = 11;
-	public static inline var SL:Int = 12;
-	public static inline var SR:Int = 13;
-	public static inline var ZR:Int = 15;
-	public static inline var R:Int = 16;
-	public static inline var PLUS:Int = 17;
-	public static inline var HOME:Int = 20;
-	public static inline var CAPTURE:Int = 21;
-	public static inline var LEFT_STICK_CLICK:Int = 22;
-	public static var LEFT_ANALOG_STICK(default, null) = new FlxGamepadAnalogStick(0, 1, {
-		up: 24,
-		down: 25,
-		left: 26,
-		right: 27
-	});
-	public static var RIGHT_ANALOG_STICK(default, null) = new FlxGamepadAnalogStick(2, 3, {
-		up: 28,
-		down: 29,
-		left: 30,
-		right: 31
-	});
-	#else
 	public static inline var ZR:Int = 5;
 	public static inline var A:Int = 6;
 	public static inline var X:Int = 7;
@@ -64,6 +38,4 @@ class SwitchJoyconRightID
 		left: 24,
 		right: 25
 	});
-	#end
-	
 }
