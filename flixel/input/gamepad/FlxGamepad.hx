@@ -24,6 +24,7 @@ import flixel.util.FlxStringUtil;
 import flixel.math.FlxMath;
 import openfl.ui.GameInputControl;
 import openfl.ui.GameInputDevice;
+#end
 
 @:allow(flixel.input.gamepad)
 class FlxGamepad implements IFlxDestroyable
