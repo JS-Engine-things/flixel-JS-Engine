@@ -2,7 +2,6 @@
 	"defaultSeverity": "WARNING",
 	"baseDefines": [
 		"FLX_MOUSE_ADVANCED",
-		"FLX_NATIVE_CURSOR",
 		"FLX_SOUND_TRAY",
 		"FLX_POINTER_INPUT"
 	],

@@ -58,7 +58,6 @@ private enum HelperDefines
 	FLX_STEAMWRAP;
 
 	FLX_MOUSE_ADVANCED;
-	FLX_NATIVE_CURSOR;
 	FLX_SOUND_TRAY;
 	FLX_POINTER_INPUT;
 	FLX_JOYSTICK_API;
@@ -175,9 +174,6 @@ class FlxDefines
 		
 		if (!defined(FLX_NO_MOUSE) && !defined(FLX_NO_MOUSE_ADVANCED))
 			define(FLX_MOUSE_ADVANCED);
-
-		if (!defined(FLX_NO_MOUSE) && !defined(FLX_NO_NATIVE_CURSOR))
-			define(FLX_NATIVE_CURSOR);
 
 		if (!defined(FLX_NO_SOUND_SYSTEM) && !defined(FLX_NO_SOUND_TRAY))
 			define(FLX_SOUND_TRAY);

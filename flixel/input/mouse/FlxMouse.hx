@@ -15,13 +15,6 @@ import flixel.input.FlxInput.FlxInputState;
 import flixel.input.mouse.FlxMouseButton.FlxMouseButtonID;
 import flixel.system.FlxAssets;
 import flixel.util.FlxDestroyUtil;
-#if FLX_NATIVE_CURSOR
-import openfl.Vector;
-import openfl.geom.Matrix;
-import openfl.geom.Point;
-import openfl.ui.MouseCursor;
-import flash.ui.MouseCursorData;
-#end
 
 @:bitmap("assets/images/ui/cursor.png")
 private class GraphicCursor extends BitmapData {}
@@ -214,15 +207,6 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	var _stage:Stage;
 
 	/**
-	 * Helper variables for flash native cursors
-	 */
-	#if FLX_NATIVE_CURSOR
-	var _cursorDefaultName:String = "defaultCursor";
-	var _currentNativeCursor:String;
-	var _matrix = new Matrix();
-	#end
-
-	/**
 	 * Load a new mouse cursor graphic - if you're using native cursors on flash,
 	 * check registerNativeCursor() for more control.
 	 *
@@ -235,12 +219,10 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 */
 	public function load(?Graphic:Dynamic, Scale:Float = 1, XOffset:Int = 0, YOffset:Int = 0):Void
 	{
-		#if !FLX_NATIVE_CURSOR
 		if (cursor != null)
 		{
 			FlxDestroyUtil.removeChild(cursorContainer, cursor);
 		}
-		#end
 
 		if (Graphic == null)
 		{
@@ -269,35 +251,7 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 		cursor.scaleX = Scale;
 		cursor.scaleY = Scale;
 
-		#if FLX_NATIVE_CURSOR
-		if (XOffset < 0 || YOffset < 0)
-		{
-			throw "Negative offsets aren't supported for native cursors.";
-		}
-
-		if (Scale < 0)
-		{
-			throw "Negative scale isn't supported for native cursors.";
-		}
-
-		var scaledWidth:Int = Std.int(Scale * cursor.bitmapData.width);
-		var scaledHeight:Int = Std.int(Scale * cursor.bitmapData.height);
-
-		var bitmapWidth:Int = scaledWidth + XOffset;
-		var bitmapHeight:Int = scaledHeight + YOffset;
-
-		var cursorBitmap:BitmapData = new BitmapData(bitmapWidth, bitmapHeight, true, 0x0);
-		if (_matrix != null)
-		{
-			_matrix.identity();
-			_matrix.scale(Scale, Scale);
-			_matrix.translate(XOffset, YOffset);
-		}
-		cursorBitmap.draw(cursor.bitmapData, _matrix);
-		setSimpleNativeCursorData(_cursorDefaultName, cursorBitmap);
-		#else
 		cursorContainer.addChild(cursor);
-		#end
 	}
 
 	/**
@@ -318,74 +272,6 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 			}
 		}
 	}
-
-	#if FLX_NATIVE_CURSOR
-	/**
-	 * Set a Native cursor that has been registered by name
-	 * Warning, you need to use registerNativeCursor() before you use it here
-	 *
-	 * @param   name   The name ID used when registered
-	 */
-	public function setNativeCursor(name:String):Void
-	{
-		_currentNativeCursor = name;
-
-		Mouse.show();
-
-		// Flash requires the use of AUTO before a custom cursor to work
-		Mouse.cursor = MouseCursor.AUTO;
-		Mouse.cursor = _currentNativeCursor;
-	}
-
-	/**
-	 * Shortcut to register a native cursor in flash
-	 *
-	 * @param   name         The ID name used for the cursor
-	 * @param   cursorData   MouseCursorData contains the bitmap, hotspot etc
-	 */
-	public inline function registerNativeCursor(name:String, cursorData:MouseCursorData):Void
-	{
-		untyped Mouse.registerCursor(name, cursorData);
-	}
-
-	/**
-	 * Shortcut to register a simple MouseCursorData
-	 *
-	 * @param   name         The ID name used for the cursor
-	 * @param   cursorData   MouseCursorData contains the bitmap, hotspot etc
-	 * @since   4.2.0
-	 */
-	public function registerSimpleNativeCursorData(name:String, cursorBitmap:BitmapData):MouseCursorData
-	{
-		var cursorVector = new Vector<BitmapData>();
-		cursorVector[0] = cursorBitmap;
-
-		if (cursorBitmap.width > 32 || cursorBitmap.height > 32)
-			throw "BitmapData files used for native cursors cannot exceed 32x32 pixels due to an OS limitation.";
-
-		var cursorData = new MouseCursorData();
-		cursorData.hotSpot = new Point(0, 0);
-		cursorData.data = cursorVector;
-
-		registerNativeCursor(name, cursorData);
-
-		return cursorData;
-	}
-
-	/**
-	 * Shortcut to create and set a simple MouseCursorData
-	 *
-	 * @param   name         The ID name used for the cursor
-	 * @param   cursorData   MouseCursorData contains the bitmap, hotspot etc
-	 */
-	public function setSimpleNativeCursorData(name:String, cursorBitmap:BitmapData):MouseCursorData
-	{
-		var data = registerSimpleNativeCursorData(name, cursorBitmap);
-		setNativeCursor(name);
-		Mouse.show();
-		return data;
-	}
-	#end
 
 	/**
 	 * Clean up memory. Internal use only.
@@ -412,10 +298,6 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 
 		cursorContainer = null;
 		cursor = null;
-
-		#if FLX_NATIVE_CURSOR
-		_matrix = null;
-		#end
 
 		_leftButton = FlxDestroyUtil.destroy(_leftButton);
 		#if FLX_MOUSE_ADVANCED
@@ -519,11 +401,9 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	{
 		reset();
 
-		#if !FLX_NATIVE_CURSOR
 		set_useSystemCursor(useSystemCursor);
 
 		visible = _visibleWhenFocusLost;
-		#end
 	}
 
 	/**
@@ -531,7 +411,6 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	 */
 	function onFocusLost():Void
 	{
-		#if !FLX_NATIVE_CURSOR
 		_visibleWhenFocusLost = visible;
 
 		if (visible)
@@ -540,7 +419,6 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 		}
 
 		Mouse.show();
-		#end
 	}
 
 	function onGameStart():Void
@@ -638,30 +516,19 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 
 	function showSystemCursor():Void
 	{
-		#if FLX_NATIVE_CURSOR
-		Mouse.cursor = MouseCursor.AUTO;
-		#else
 		cursorContainer.visible = false;
-		#end
 
 		Mouse.show();
 	}
 
 	function hideSystemCursor():Void
 	{
-		#if FLX_NATIVE_CURSOR
-		if (_currentNativeCursor != null)
-		{
-			setNativeCursor(_currentNativeCursor);
-		}
-		#else
 		Mouse.hide();
 
 		if (visible)
 		{
 			cursorContainer.visible = true;
 		}
-		#end
 	}
 
 	function set_useSystemCursor(value:Bool):Bool
@@ -688,12 +555,8 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 			if (cursor == null)
 				load();
 
-			#if FLX_NATIVE_CURSOR
-			Mouse.show();
-			#else
 			cursorContainer.visible = true;
 			Mouse.hide();
-			#end
 		}
 	}
 

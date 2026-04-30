@@ -20,9 +20,7 @@ import flixel.system.debug.interaction.tools.Pointer;
 import flixel.system.debug.interaction.tools.Tool;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxSpriteUtil;
-#if !(FLX_NATIVE_CURSOR && FLX_MOUSE)
 import openfl.display.Bitmap;
-#end
 
 /**
  * Adds a new functionality to Flixel debugger that allows any object
@@ -441,15 +439,11 @@ class Interaction extends Window
 		if (icon == null)
 			return;
 
-		#if (FLX_NATIVE_CURSOR && FLX_MOUSE)
-		FlxG.mouse.registerSimpleNativeCursorData(name, icon);
-		#else
 		var sprite = new Sprite();
 		sprite.visible = false;
 		sprite.name = name;
 		sprite.addChild(new Bitmap(icon));
 		_customCursor.addChild(sprite);
-		#end
 	}
 
 	public function updateCustomCursors():Void
@@ -465,11 +459,6 @@ class Interaction extends Window
 			{
 				// Yep. Let's show it then
 				var cursorInUse = activeTool.cursorInUse == "" ? activeTool.getName() : activeTool.cursorInUse;
-				#if FLX_NATIVE_CURSOR
-				// We have lag-free native cursors available, yay!
-				// Activate it then.
-				FlxG.mouse.setNativeCursor(cursorInUse);
-				#else
 				// No fancy native cursors, so we have to emulate it.
 				// Let's make the currently active tool's fake cursor visible
 				for (i in 0..._customCursor.numChildren)
@@ -479,7 +468,6 @@ class Interaction extends Window
 				}
 				if (FlxG.mouse.visible)
 					FlxG.mouse.visible = false;
-				#end
 			}
 			else
 			{
@@ -563,7 +551,7 @@ class Interaction extends Window
 	function setToolsCursorVisibility(status:Bool):Void
 	{
 		#if FLX_MOUSE
-		FlxG.mouse.useSystemCursor = #if FLX_NATIVE_CURSOR status #else false #end;
+		FlxG.mouse.useSystemCursor = false;
 		#end
 		_customCursor.visible = status;
 
