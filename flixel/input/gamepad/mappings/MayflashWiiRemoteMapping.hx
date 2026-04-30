@@ -6,16 +6,6 @@ import flixel.input.gamepad.id.MayflashWiiRemoteID;
 
 class MayflashWiiRemoteMapping extends FlxGamepadMapping
 {
-	#if FLX_JOYSTICK_API
-	static inline var REMOTE_DPAD_X:Int = 16;
-	static inline var REMOTE_DPAD_Y:Int = 17;
-
-	static inline var LEFT_ANALOG_STICK_FAKE_X:Int = 18;
-	static inline var LEFT_ANALOG_STICK_FAKE_Y:Int = 19;
-	static inline var RIGHT_ANALOG_STICK_FAKE_X:Int = 20;
-	static inline var RIGHT_ANALOG_STICK_FAKE_Y:Int = 21;
-	#end
-
 	override function initValues():Void
 	{
 		// but you'll only get non-zero values for it when the Nunchuk is attached
@@ -195,50 +185,6 @@ class MayflashWiiRemoteMapping extends FlxGamepadMapping
 			default: super.getRawID(ID);
 		}
 	}
-
-	#if FLX_JOYSTICK_API
-	override public function axisIndexToRawID(axisID:Int):Int
-	{
-		if (attachment == WII_NUNCHUCK || attachment == WII_CLASSIC_CONTROLLER)
-		{
-			if (axisID == leftStick.x)
-				return LEFT_ANALOG_STICK_FAKE_X;
-			else if (axisID == rightStick.y)
-				return LEFT_ANALOG_STICK_FAKE_Y;
-		}
-		else
-		{
-			if (axisID == leftStick.x)
-				return REMOTE_DPAD_X;
-			else if (axisID == rightStick.y)
-				return REMOTE_DPAD_Y;
-		}
-
-		if (axisID == leftStick.x)
-			return RIGHT_ANALOG_STICK_FAKE_X;
-		else if (axisID == rightStick.y)
-			return RIGHT_ANALOG_STICK_FAKE_Y;
-
-		return axisID;
-	}
-
-	override public function checkForFakeAxis(ID:FlxGamepadInputID):Int
-	{
-		if (attachment == WII_NUNCHUCK)
-		{
-			if (ID == LEFT_TRIGGER)
-				return MayflashWiiRemoteID.NUNCHUK_Z;
-		}
-		else if (attachment == WII_CLASSIC_CONTROLLER)
-		{
-			if (ID == LEFT_TRIGGER)
-				return LEFT_TRIGGER_FAKE;
-			if (ID == RIGHT_TRIGGER)
-				return RIGHT_TRIGGER_FAKE;
-		}
-		return -1;
-	}
-	#end
 
 	override function set_attachment(attachment:FlxGamepadAttachment):FlxGamepadAttachment
 	{

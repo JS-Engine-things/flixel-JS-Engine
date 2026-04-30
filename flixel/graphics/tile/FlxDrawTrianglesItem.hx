@@ -13,7 +13,7 @@ import openfl.display.ShaderParameter;
 import openfl.display.TriangleCulling;
 import openfl.geom.ColorTransform;
 
-typedef DrawData<T> = #if (openfl >= "4.0.0") openfl.Vector<T> #else Array<T> #end;
+typedef DrawData<T> = openfl.Vector<T>;
 
 /**
  * @author Zaphod
@@ -69,14 +69,8 @@ class FlxDrawTrianglesItem extends FlxDrawBaseItem<FlxDrawTrianglesItem>
 		setParameterValue(shader.hasTransform, true);
 		setParameterValue(shader.hasColorTransform, colored || hasColorOffsets);
 
-		#if (openfl > "8.7.0")
 		camera.canvas.graphics.overrideBlendMode(blend);
-		#end
-
 		camera.canvas.graphics.beginShaderFill(shader);
-		#else
-		camera.canvas.graphics.beginBitmapFill(graphics.bitmap, null, true, (camera.antialiasing || antialiasing));
-		#end
 
 		camera.canvas.graphics.drawTriangles(vertices, indices, uvtData, TriangleCulling.NONE);
 		camera.canvas.graphics.endFill();
@@ -88,6 +82,7 @@ class FlxDrawTrianglesItem extends FlxDrawBaseItem<FlxDrawTrianglesItem>
 			gfx.lineStyle(1, FlxColor.BLUE, 0.5);
 			gfx.drawTriangles(vertices, indices, uvtData);
 		}
+		#end
 
 		super.render(camera);
 	}

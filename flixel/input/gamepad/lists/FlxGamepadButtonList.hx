@@ -98,7 +98,6 @@ class FlxGamepadButtonList extends FlxBaseGamepadList
 	inline function get_RIGHT_TRIGGER_BUTTON()
 		return check(FlxGamepadInputID.RIGHT_TRIGGER_BUTTON);
 
-	#if !FLX_JOYSTICK_API
 	public var LEFT_TRIGGER(get, never):Bool;
 
 	inline function get_LEFT_TRIGGER()
@@ -108,17 +107,6 @@ class FlxGamepadButtonList extends FlxBaseGamepadList
 
 	inline function get_RIGHT_TRIGGER()
 		return check(FlxGamepadInputID.RIGHT_TRIGGER);
-	#else
-	public var LEFT_TRIGGER(get, never):Bool;
-
-	inline function get_LEFT_TRIGGER()
-		return check(FlxGamepadInputID.LEFT_TRIGGER_FAKE);
-
-	public var RIGHT_TRIGGER(get, never):Bool;
-
-	inline function get_RIGHT_TRIGGER()
-		return check(FlxGamepadInputID.RIGHT_TRIGGER_FAKE);
-	#end
 
 	public var LEFT_ANALOG_STICK(get, never):Bool;
 

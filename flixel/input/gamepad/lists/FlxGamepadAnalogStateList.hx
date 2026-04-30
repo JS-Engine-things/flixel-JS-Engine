@@ -114,11 +114,6 @@ class FlxGamepadAnalogStateList
 
 	inline function checkRaw(RawID:Int, Status:FlxInputState):Bool
 	{
-		#if FLX_JOYSTICK_API
-		// in legacy this is the axis index and not the RawID,
-		// so we do a reverse lookup to get the rawID for a "fake" button
-		RawID = gamepad.mapping.axisIndexToRawID(RawID);
-		#end
 		return gamepad.checkStatusRaw(RawID, Status);
 	}
 }

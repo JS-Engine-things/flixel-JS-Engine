@@ -5,14 +5,6 @@ import flixel.input.gamepad.id.OUYAID;
 
 class OUYAMapping extends FlxGamepadMapping
 {
-	#if FLX_JOYSTICK_API
-	static inline var LEFT_ANALOG_STICK_FAKE_X:Int = 19;
-	static inline var LEFT_ANALOG_STICK_FAKE_Y:Int = 20;
-
-	static inline var RIGHT_ANALOG_STICK_FAKE_X:Int = 21;
-	static inline var RIGHT_ANALOG_STICK_FAKE_Y:Int = 22;
-	#end
-
 	override function initValues():Void
 	{
 		leftStick = OUYAID.LEFT_ANALOG_STICK;
@@ -93,16 +85,4 @@ class OUYAMapping extends FlxGamepadMapping
 			case _: super.getInputLabel(id);
 		}
 	}
-
-	#if FLX_JOYSTICK_API
-	override public function axisIndexToRawID(axisID:Int):Int
-	{
-		return if (axisID == leftStick.x) LEFT_ANALOG_STICK_FAKE_X; else if (axisID == leftStick.y) LEFT_ANALOG_STICK_FAKE_Y; else if (axisID == rightStick.x)
-			RIGHT_ANALOG_STICK_FAKE_X;
-		else if (axisID == rightStick.y)
-			RIGHT_ANALOG_STICK_FAKE_Y;
-		else
-			axisID;
-	}
-	#end
 }

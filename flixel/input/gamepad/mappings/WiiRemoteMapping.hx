@@ -6,13 +6,6 @@ import flixel.input.gamepad.id.WiiRemoteID;
 
 class WiiRemoteMapping extends FlxGamepadMapping
 {
-	#if FLX_JOYSTICK_API
-	static inline var LEFT_ANALOG_STICK_FAKE_X:Int = 20;
-	static inline var LEFT_ANALOG_STICK_FAKE_Y:Int = 21;
-	static inline var RIGHT_ANALOG_STICK_FAKE_X:Int = 22;
-	static inline var RIGHT_ANALOG_STICK_FAKE_Y:Int = 23;
-	#end
-
 	override function initValues():Void
 	{
 		supportsMotion = true;
@@ -217,49 +210,6 @@ class WiiRemoteMapping extends FlxGamepadMapping
 	{
 		return axisID == WiiRemoteID.LEFT_TRIGGER_FAKE;
 	}
-
-	#if FLX_JOYSTICK_API
-	// Analog stick and trigger values overlap with regular buttons so we remap to "fake" button ID's
-	override public function axisIndexToRawID(axisID:Int):Int
-	{
-		// return null for this unused access so it doesn't overlap a button input
-		if (attachment == NONE && axisID == WiiRemoteID.REMOTE_NULL_AXIS)
-			return -1;
-		// return null for this unused access so it doesn't overlap a button input
-		else if (attachment == WII_NUNCHUCK && axisID == WiiRemoteID.NUNCHUK_NULL_AXIS)
-			return -1;
-
-		if (attachment == WII_NUNCHUCK || attachment == WII_CLASSIC_CONTROLLER)
-		{
-			if (axisID == leftStick.x)
-				return LEFT_ANALOG_STICK_FAKE_X;
-			else if (axisID == leftStick.y)
-				return LEFT_ANALOG_STICK_FAKE_Y;
-		}
-		else
-		{
-			if (axisID == leftStick.x)
-				return WiiRemoteID.REMOTE_DPAD_X;
-			else if (axisID == leftStick.y)
-				return WiiRemoteID.REMOTE_DPAD_Y;
-		}
-
-		if (axisID == rightStick.x)
-			return RIGHT_ANALOG_STICK_FAKE_X;
-		else if (axisID == rightStick.y)
-			return RIGHT_ANALOG_STICK_FAKE_Y;
-
-		return axisID;
-	}
-
-	override public function checkForFakeAxis(ID:FlxGamepadInputID):Int
-	{
-		if (attachment == WII_NUNCHUCK && ID == FlxGamepadInputID.LEFT_TRIGGER)
-			return WiiRemoteID.NUNCHUK_Z;
-
-		return -1;
-	}
-	#end
 
 	override function set_attachment(attachment:FlxGamepadAttachment):FlxGamepadAttachment
 	{

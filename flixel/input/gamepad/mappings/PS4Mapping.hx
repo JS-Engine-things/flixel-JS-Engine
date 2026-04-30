@@ -5,17 +5,6 @@ import flixel.input.gamepad.id.PS4ID;
 
 class PS4Mapping extends FlxGamepadMapping
 {
-	#if FLX_JOYSTICK_API
-	static inline var LEFT_ANALOG_STICK_FAKE_X:Int = 21;
-	static inline var LEFT_ANALOG_STICK_FAKE_Y:Int = 22;
-
-	static inline var RIGHT_ANALOG_STICK_FAKE_X:Int = 23;
-	static inline var RIGHT_ANALOG_STICK_FAKE_Y:Int = 24;
-
-	static inline var LEFT_TRIGGER_FAKE:Int = 25;
-	static inline var RIGHT_TRIGGER_FAKE:Int = 26;
-	#end
-
 	override function initValues():Void
 	{
 		leftStick = PS4ID.LEFT_ANALOG_STICK;
@@ -92,10 +81,6 @@ class PS4Mapping extends FlxGamepadMapping
 			case RIGHT_STICK_DIGITAL_DOWN: PS4ID.RIGHT_ANALOG_STICK.rawDown;
 			case RIGHT_STICK_DIGITAL_LEFT: PS4ID.RIGHT_ANALOG_STICK.rawLeft;
 			case RIGHT_STICK_DIGITAL_RIGHT: PS4ID.RIGHT_ANALOG_STICK.rawRight;
-			#if FLX_JOYSTICK_API
-			case LEFT_TRIGGER_FAKE: LEFT_TRIGGER_FAKE;
-			case RIGHT_TRIGGER_FAKE: RIGHT_TRIGGER_FAKE;
-			#end
 			default: super.getRawID(ID);
 		}
 	}
@@ -118,21 +103,4 @@ class PS4Mapping extends FlxGamepadMapping
 			case _: super.getInputLabel(id);
 		}
 	}
-	
-	#if FLX_JOYSTICK_API
-	override public function axisIndexToRawID(axisID:Int):Int
-	{
-		// Analog stick and trigger values overlap with regular buttons so we remap to "fake" button ID's
-		return if (axisID == leftStick.x) LEFT_ANALOG_STICK_FAKE_X; else if (axisID == leftStick.y) LEFT_ANALOG_STICK_FAKE_Y; else if (axisID == rightStick.x)
-			RIGHT_ANALOG_STICK_FAKE_X;
-		else if (axisID == rightStick.y)
-			RIGHT_ANALOG_STICK_FAKE_Y;
-		else if (axisID == PS4ID.L2)
-			LEFT_TRIGGER_FAKE;
-		else if (axisID == PS4ID.R2)
-			RIGHT_TRIGGER_FAKE;
-		else
-			axisID;
-	}
-	#end
 }

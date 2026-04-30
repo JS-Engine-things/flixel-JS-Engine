@@ -5,7 +5,6 @@ import openfl.display.DisplayObject;
 import openfl.display.Stage;
 import openfl.display.StageDisplayState;
 import openfl.net.URLRequest;
-import flixel.effects.postprocess.PostProcess;
 import flixel.math.FlxMath;
 import flixel.math.FlxRandom;
 import flixel.math.FlxRect;
@@ -21,7 +20,6 @@ import flixel.system.frontEnds.LogFrontEnd;
 import flixel.system.frontEnds.PluginFrontEnd;
 import flixel.system.frontEnds.SignalFrontEnd;
 import flixel.system.frontEnds.SoundFrontEnd;
-import flixel.system.frontEnds.VCRFrontEnd;
 import flixel.system.frontEnds.WatchFrontEnd;
 import flixel.system.scaleModes.BaseScaleMode;
 import flixel.system.scaleModes.RatioScaleMode;
@@ -48,12 +46,6 @@ import flixel.input.FlxAccelerometer;
 #end
 #if FLX_POINTER_INPUT
 import flixel.input.FlxSwipe;
-#end
-#if FLX_POST_PROCESS
-import flixel.util.FlxDestroyUtil;
-import openfl.display.OpenGLView;
-
-using flixel.util.FlxArrayUtil;
 #end
 
 #if html5
@@ -301,11 +293,6 @@ class FlxG
 	public static var debugger(default, null):DebuggerFrontEnd = new DebuggerFrontEnd();
 
 	/**
-	 * Contains all the functions needed for recording and replaying.
-	 */
-	public static var vcr(default, null):VCRFrontEnd;
-
-	/**
 	 * Contains things related to bitmaps, for example regarding the `BitmapData` cache and the cache itself.
 	 */
 	public static var bitmap(default, null):BitmapFrontEnd = new BitmapFrontEnd();
@@ -529,62 +516,6 @@ class FlxG
 		return child;
 	}
 
-	public static function addPostProcess(postProcess:PostProcess):PostProcess
-	{
-		#if FLX_POST_PROCESS
-		if (OpenGLView.isSupported)
-		{
-			var postProcesses = game.postProcesses;
-
-			// chaining
-			var length = postProcesses.length;
-			if (length > 0)
-			{
-				postProcesses[length - 1].to = postProcess;
-			}
-
-			game.postProcessLayer.addChild(postProcess);
-			postProcesses.push(postProcess);
-		}
-		else
-		{
-			FlxG.log.error("Shaders are not supported on this platform.");
-		}
-		#end
-
-		return postProcess;
-	}
-
-	public static function removePostProcess(postProcess:PostProcess):Void
-	{
-		#if FLX_POST_PROCESS
-		var postProcesses = game.postProcesses;
-		if (postProcesses.remove(postProcess))
-		{
-			chainPostProcesses();
-			postProcess.to = null;
-
-			FlxDestroyUtil.removeChild(game.postProcessLayer, postProcess);
-		}
-		#end
-	}
-
-	#if FLX_POST_PROCESS
-	static function chainPostProcesses():Void
-	{
-		var postProcesses = game.postProcesses;
-
-		if (postProcesses.length > 0)
-		{
-			for (i in 0...postProcesses.length - 1)
-			{
-				postProcesses[i].to = postProcesses[i + 1];
-			}
-			postProcesses.last().to = null;
-		}
-	}
-	#end
-
 	/**
 	 * Opens a web page, by default a new tab or window. If the URL does not
 	 * already start with `"http://"` or `"https://"`, it gets added automatically.
@@ -652,7 +583,6 @@ class FlxG
 		#end
 
 		plugins = new PluginFrontEnd();
-		vcr = new VCRFrontEnd();
 
 		#if FLX_SOUND_SYSTEM
 		sound = new SoundFrontEnd();
