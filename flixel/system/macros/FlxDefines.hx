@@ -90,6 +90,7 @@ class FlxDefines
 		#if !display
 		checkCompatibility();
 		checkDefines();
+		#end
 		
 		defineInversions();
 		defineHelperDefines();

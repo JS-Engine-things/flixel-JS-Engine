@@ -21,7 +21,6 @@ import flixel.system.frontEnds.LogFrontEnd;
 import flixel.system.frontEnds.PluginFrontEnd;
 import flixel.system.frontEnds.SignalFrontEnd;
 import flixel.system.frontEnds.SoundFrontEnd;
-import flixel.system.frontEnds.VCRFrontEnd;
 import flixel.system.frontEnds.WatchFrontEnd;
 import flixel.system.scaleModes.BaseScaleMode;
 import flixel.system.scaleModes.RatioScaleMode;
@@ -299,11 +298,6 @@ class FlxG
 	 * activate debug drawing or change the key used to toggle it.
 	 */
 	public static var debugger(default, null):DebuggerFrontEnd = new DebuggerFrontEnd();
-
-	/**
-	 * Contains all the functions needed for recording and replaying.
-	 */
-	public static var vcr(default, null):VCRFrontEnd;
 
 	/**
 	 * Contains things related to bitmaps, for example regarding the `BitmapData` cache and the cache itself.
@@ -652,7 +646,6 @@ class FlxG
 		#end
 
 		plugins = new PluginFrontEnd();
-		vcr = new VCRFrontEnd();
 
 		#if FLX_SOUND_SYSTEM
 		sound = new SoundFrontEnd();
