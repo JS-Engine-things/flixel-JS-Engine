@@ -37,9 +37,6 @@ class ConsoleCommands
 		console.registerFunction("listObjects", listObjects, "Lists the aliases of all registered objects.");
 		console.registerFunction("listFunctions", listFunctions, "Lists the aliases of all registered functions.");
 
-		console.registerFunction("step", step, "Steps the game forward one frame if currently paused. No effect if unpaused.");
-		console.registerFunction("pause", pause, "Toggles the game between paused and unpaused.");
-
 		console.registerFunction("clearBitmapLog", FlxG.bitmapLog.clear, "Clears the bitmapLog window.");
 		console.registerFunction("viewCache", FlxG.bitmapLog.viewCache, "Adds the cache to the bitmapLog window.");
 
@@ -171,26 +168,6 @@ class ConsoleCommands
 		}
 
 		_watchingMouse = !_watchingMouse;
-	}
-
-	function pause():Void
-	{
-		if (FlxG.vcr.paused)
-		{
-			FlxG.vcr.resume();
-			ConsoleUtil.log("pause: Game unpaused");
-		}
-		else
-		{
-			FlxG.vcr.pause();
-			ConsoleUtil.log("pause: Game paused");
-		}
-	}
-
-	function step():Void
-	{
-		if (FlxG.vcr.paused)
-			FlxG.game.debugger.vcr.onStep();
 	}
 }
 #end

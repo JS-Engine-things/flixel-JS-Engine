@@ -155,15 +155,6 @@ class Console extends Window
 	function onFocus(_)
 	{
 		#if FLX_DEBUG
-		// Pause game
-		if (FlxG.console.autoPause)
-			FlxG.vcr.pause();
-
-		// Block keyboard input
-		#if FLX_KEYBOARD
-		FlxG.keys.enabled = false;
-		#end
-
 		if (input.text == Console.DEFAULT_TEXT)
 			input.text = "";
 		#end
@@ -173,15 +164,6 @@ class Console extends Window
 	function onFocusLost(_)
 	{
 		#if FLX_DEBUG
-		// Unpause game
-		if (FlxG.console.autoPause && !FlxG.game.debugger.vcr.manualPause)
-			FlxG.vcr.resume();
-
-		// Unblock keyboard input
-		#if FLX_KEYBOARD
-		FlxG.keys.enabled = true;
-		#end
-
 		if (input.text == "")
 			input.text = Console.DEFAULT_TEXT;
 		#end
@@ -242,12 +224,6 @@ class Console extends Window
 				ConsoleUtil.log(output);
 
 			history.addCommand(input.text);
-
-			// Step forward one frame to see the results of the command
-			#if FLX_DEBUG
-			if (FlxG.vcr.paused && FlxG.console.stepAfterCommand)
-				FlxG.game.debugger.vcr.onStep();
-			#end
 
 			input.text = "";
 		}
