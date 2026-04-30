@@ -14,7 +14,6 @@ import flixel.input.IFlxInputManager;
 import flixel.input.FlxInput.FlxInputState;
 import flixel.input.mouse.FlxMouseButton.FlxMouseButtonID;
 import flixel.system.FlxAssets;
-import flixel.system.replay.MouseRecord;
 import flixel.util.FlxDestroyUtil;
 #if FLX_NATIVE_CURSOR
 import openfl.Vector;
@@ -202,15 +201,6 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 	var _cursorBitmapData:BitmapData;
 	var _wheelUsed:Bool = false;
 	var _visibleWhenFocusLost:Bool = true;
-
-	/**
-	 * Helper variables for recording purposes.
-	 */
-	var _lastX:Int = 0;
-
-	var _lastY:Int = 0;
-	var _lastWheel:Int = 0;
-	var _lastLeftButtonState:FlxInputState;
 
 	/**
 	 * Helper variables to see if the mouse has moved since the last update, and by how much.
@@ -721,42 +711,6 @@ class FlxMouse extends FlxPointer implements IFlxInputManager
 			hideCursor();
 
 		return visible = value;
-	}
-
-	@:allow(flixel.system.replay.FlxReplay)
-	function record():MouseRecord
-	{
-		if ((_lastX == _globalScreenX)
-			&& (_lastY == _globalScreenY)
-			&& (_lastLeftButtonState == _leftButton.current)
-			&& (_lastWheel == wheel))
-		{
-			return null;
-		}
-
-		_lastX = _globalScreenX;
-		_lastY = _globalScreenY;
-		_lastLeftButtonState = _leftButton.current;
-		_lastWheel = wheel;
-		return new MouseRecord(_lastX, _lastY, _leftButton.current, _lastWheel);
-	}
-
-	@:allow(flixel.system.replay.FlxReplay)
-	function playback(record:MouseRecord):Void
-	{
-		// Manually dispatch a MOUSE_UP event so that, e.g., FlxButtons click correctly on playback.
-		// Note: some clicks are fast enough to not pass through a frame where they are PRESSED
-		// and JUST_RELEASED is swallowed by FlxButton and others, but not third-party code
-		if ((_lastLeftButtonState == PRESSED || _lastLeftButtonState == JUST_PRESSED)
-			&& (record.button == RELEASED || record.button == JUST_RELEASED))
-		{
-			_stage.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP, true, false, record.x, record.y));
-		}
-		_lastLeftButtonState = _leftButton.current = record.button;
-		wheel = record.wheel;
-		_globalScreenX = record.x;
-		_globalScreenY = record.y;
-		updatePositions();
 	}
 
 	inline function get__cursor()

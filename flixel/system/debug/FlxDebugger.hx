@@ -78,7 +78,6 @@ class FlxDebugger extends Sprite
 	public var log:Log;
 	public var watch:Watch;
 	public var bitmapLog:BitmapLog;
-	public var vcr:VCR;
 	public var console:Console;
 	public var interaction:Interaction;
 
@@ -153,8 +152,6 @@ class FlxDebugger extends Sprite
 		addWindow(stats = new Stats());
 		addWindow(interaction = new Interaction(this));
 
-		vcr = new VCR(this);
-
 		addButton(LEFT, new GraphicFlixel(0, 0), openHomepage);
 		addButton(LEFT, null, openGitHub).addChild(txt);
 
@@ -172,10 +169,6 @@ class FlxDebugger extends Sprite
 		{
 			drawDebugButton.toggled = !FlxG.debugger.drawDebug;
 		});
-
-		#if FLX_RECORD
-		addButton(CENTER).addChild(vcr.runtimeDisplay);
-		#end
 
 		addChild(completionList);
 

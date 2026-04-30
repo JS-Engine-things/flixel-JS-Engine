@@ -983,10 +983,10 @@ class FlxBar extends FlxSprite
 	{
 		if (FlxG.renderTile)
 		{
-			if (value != null)
+			if (value != null && value.parent != null)
 				value.parent.incrementUseCount();
 				
-			if (frontFrames != null)
+			if (frontFrames != null && frontFrames.parent != null)
 				frontFrames.parent.decrementUseCount();
 
 			frontFrames = value;

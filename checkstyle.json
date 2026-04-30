@@ -5,8 +5,7 @@
 		"FLX_NATIVE_CURSOR",
 		"FLX_SOUND_TRAY",
 		"FLX_POINTER_INPUT",
-		"FLX_POST_PROCESS",
-		"FLX_RECORD"
+		"FLX_POST_PROCESS"
 	],
 	"defineCombinations": [
 		["FLX_JOYSTICK_API"],
