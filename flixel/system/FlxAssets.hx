@@ -123,7 +123,7 @@ class FlxAssets
 	 * `FlxAssets.getSound` which are not common. Currently set to ".ogg" on non-flash targets
 	 * for backwards compatibility reasons.
 	 */
-	public static var defaultSoundExtension = #if flash "mp3" #else "ogg" #end;
+	public static var defaultSoundExtension = #if web "mp3" #else "ogg" #end;
 
 	#if (macro || doc_gen)
 	/**

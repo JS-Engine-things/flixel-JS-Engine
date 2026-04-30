@@ -90,9 +90,6 @@ class FlxDefines
 		#if !display
 		checkCompatibility();
 		checkDefines();
-		if (defined("flash"))
-			checkSwfVersion();
-		#end
 		
 		defineInversions();
 		defineHelperDefines();
@@ -183,17 +180,17 @@ class FlxDefines
 		else
 			define(FLX_NO_CI);
 		
-		if (!defined(FLX_NO_MOUSE) && !defined(FLX_NO_MOUSE_ADVANCED) && (!defined("flash") || defined("flash11_2")))
+		if (!defined(FLX_NO_MOUSE) && !defined(FLX_NO_MOUSE_ADVANCED))
 			define(FLX_MOUSE_ADVANCED);
 
-		if (!defined(FLX_NO_MOUSE) && !defined(FLX_NO_NATIVE_CURSOR) && defined("flash10_2"))
+		if (!defined(FLX_NO_MOUSE) && !defined(FLX_NO_NATIVE_CURSOR))
 			define(FLX_NATIVE_CURSOR);
 
 		if (!defined(FLX_NO_SOUND_SYSTEM) && !defined(FLX_NO_SOUND_TRAY))
 			define(FLX_SOUND_TRAY);
 
 		#if (lime >= "8.0.0")
-		if (defined(FLX_NO_SOUND_SYSTEM) || defined("flash"))
+		if (defined(FLX_NO_SOUND_SYSTEM))
 			define(FLX_NO_PITCH);
 		#else
 		define(FLX_NO_PITCH);
@@ -205,9 +202,8 @@ class FlxDefines
 		if (!defined(FLX_NO_SAVE))
 			define(FLX_SAVE);
 		
-		if (!defined("flash") || defined("flash11_8"))
-			define(FLX_GAMEINPUT_API);
-		else if (!defined("openfl_next") && (defined("cpp") || defined("neko")))
+		define(FLX_GAMEINPUT_API);
+		if (!defined("openfl_next") && (defined("cpp")))
 			define(FLX_JOYSTICK_API);
 
 		#if nme
@@ -238,25 +234,6 @@ class FlxDefines
 	{
 		if (!defined(userDefine))
 			define(invertedDefine);
-	}
-
-	static function checkSwfVersion()
-	{
-		if (!defined("flash11"))
-			abort("The minimum required Flash Player version for HaxeFlixel is 11." + " Please specify a newer version in your Project.xml file.",
-				(macro null).pos);
-
-		swfVersionError("Middle and right mouse button events are", "11.2", FLX_NO_MOUSE_ADVANCED);
-		swfVersionError("Gamepad input is", "11.8", FLX_NO_GAMEPAD);
-	}
-
-	static function swfVersionError(feature:String, version:String, define:UserDefines)
-	{
-		var errorMessage = '$feature only supported in Flash Player version $version or higher. '
-			+ 'Define ${define.getName()} to disable this feature or add <set name="SWF_VERSION" value="$version" /> to your Project.xml.';
-
-		if (!defined("flash" + version.replace(".", "_")) && !defined(define))
-			abort(errorMessage, (macro null).pos);
 	}
 
 	static inline function defined(define:Dynamic)

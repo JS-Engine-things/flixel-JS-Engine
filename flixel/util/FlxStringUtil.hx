@@ -9,10 +9,6 @@ import flixel.util.typeLimit.OneOfTwo;
 
 using StringTools;
 
-#if flash
-import openfl.geom.Matrix;
-#end
-
 /**
  * A class primarily containing functions related
  * to formatting different data types to strings.
@@ -461,7 +457,6 @@ class FlxStringUtil
 			var bd:BitmapData = Bitmap;
 			Bitmap = new BitmapData(Bitmap.width * Scale, Bitmap.height * Scale);
 
-			#if !flash
 			var bdW:Int = bd.width;
 			var bdH:Int = bd.height;
 			var pCol:Int = 0;
@@ -481,11 +476,6 @@ class FlxStringUtil
 					}
 				}
 			}
-			#else
-			var mtx = new Matrix();
-			mtx.scale(Scale, Scale);
-			Bitmap.draw(bd, mtx);
-			#end
 		}
 
 		if (ColorMap != null)

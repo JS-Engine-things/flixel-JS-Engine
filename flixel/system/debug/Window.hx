@@ -324,7 +324,7 @@ class Window extends Sprite
 	 */
 	function init(?_:Event):Void
 	{
-		if (#if flash root #else stage #end == null)
+		if (stage == null)
 		{
 			return;
 		}

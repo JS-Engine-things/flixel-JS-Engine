@@ -145,11 +145,6 @@ class FlxBasePreloader extends DefaultPreloader
 	 */
 	override public function onUpdate(bytesLoaded:Int, bytesTotal:Int)
 	{
-		#if flash
-		if (root.loaderInfo.bytesTotal == 0)
-			bytesTotal = 50000;
-		#end
-
 		#if web
 		_percent = (bytesTotal != 0) ? bytesLoaded / bytesTotal : 0;
 		#else
@@ -396,7 +391,7 @@ class FlxBasePreloader extends DefaultPreloader
 		if (allowedURLs.length == 0)
 			return true;
 
-		var homeURL:String = #if flash loaderInfo.loaderURL #elseif js js.Browser.location.href #else "" #end;
+		var homeURL:String = #if js js.Browser.location.href #else "" #end;
 		var homeDomain:String = FlxStringUtil.getDomain(homeURL);
 		for (allowedURL in allowedURLs)
 		{

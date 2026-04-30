@@ -349,13 +349,7 @@ class FlxG
 	public static function resizeWindow(width:Int, height:Int):Void
 	{
 		#if desktop
-		#if air
-		var window = flash.desktop.NativeApplication.nativeApplication.activeWindow;
-		window.width = width;
-		window.height = height;
-		#else
 		Lib.application.window.resize(width, height);
-		#end
 		#end
 	}
 
@@ -669,7 +663,7 @@ class FlxG
 	{
 		renderMethod = BLITTING;
 
-		#if (!lime_legacy && !flash)
+		#if (!lime_legacy)
 		#if (lime >= "7.0.0")
 		renderMethod = switch (stage.window.context.type)
 		{
@@ -697,10 +691,6 @@ class FlxG
 		#else
 		renderMethod = DRAW_TILES;
 		#end
-		#end
-
-		#if air
-		renderMethod = BLITTING;
 		#end
 
 		renderBlit = renderMethod == BLITTING;

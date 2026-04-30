@@ -425,7 +425,7 @@ class FlxSpriteUtil
 		return sprite;
 	}
 
-	#if (flash || openfl >= "8.0.0")
+	#if (openfl >= "8.0.0")
 	/**
 	 * This function draws a rounded rectangle on a FlxSprite. Same as drawRoundRect,
 	 * except it allows you to determine the radius of each corner individually.

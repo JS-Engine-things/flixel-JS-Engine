@@ -93,7 +93,7 @@ class FlxMatrix extends Matrix
 		return px * b + py * d + ty;
 	}
 
-	#if (nme && !flash)
+	#if (nme)
 	public function copyFrom(sourceMatrix:Matrix):Void
 	{
 		a = sourceMatrix.a;
