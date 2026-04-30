@@ -4,7 +4,6 @@ package flixel.input.keyboard;
 import openfl.events.KeyboardEvent;
 import flixel.FlxG;
 import flixel.input.FlxInput;
-import flixel.system.replay.CodeValuePair;
 
 /**
  * Keeps track of what keys are pressed and how with handy Bools or strings.
@@ -108,19 +107,6 @@ class FlxKeyboard extends FlxKeyManager<FlxKey, FlxKeyList>
 		#end
 	}
 
-	override function onKeyDown(event:KeyboardEvent):Void
-	{
-		super.onKeyDown(event);
-
-		// Attempted to cancel the replay?
-		#if FLX_RECORD
-		if (FlxG.game.replaying && !inKeyArray(FlxG.debugger.toggleKeys, event) && inKeyArray(FlxG.vcr.cancelKeys, event))
-		{
-			FlxG.vcr.cancelReplay();
-		}
-		#end
-	}
-
 	override function resolveKeyCode(e:KeyboardEvent):Int
 	{
 		#if web
@@ -129,56 +115,6 @@ class FlxKeyboard extends FlxKeyManager<FlxKey, FlxKeyList>
 		var code = _nativeCorrection.get(e.charCode + "_" + e.keyCode);
 		return (code == null) ? e.keyCode : code;
 		#end
-	}
-
-	/**
-	 * If any keys are not "released",
-	 * this function will return an array indicating
-	 * which keys are pressed and what state they are in.
-	 *
-	 * @return	An array of key state data. Null if there is no data.
-	 */
-	@:allow(flixel.system.replay.FlxReplay)
-	function record():Array<CodeValuePair>
-	{
-		var data:Array<CodeValuePair> = null;
-
-		for (key in _keyListArray)
-		{
-			if (key == null || key.released)
-			{
-				continue;
-			}
-
-			if (data == null)
-			{
-				data = new Array<CodeValuePair>();
-			}
-
-			data.push(new CodeValuePair(key.ID, key.current));
-		}
-
-		return data;
-	}
-
-	/**
-	 * Part of the keystroke recording system.
-	 * Takes data about key presses and sets it into array.
-	 *
-	 * @param	Record	Array of data about key states.
-	 */
-	@:allow(flixel.system.replay.FlxReplay)
-	function playback(Record:Array<CodeValuePair>):Void
-	{
-		var i:Int = 0;
-		var l:Int = Record.length;
-
-		while (i < l)
-		{
-			var o = Record[i++];
-			var o2 = getKey(o.code);
-			o2.current = o.value;
-		}
 	}
 }
 

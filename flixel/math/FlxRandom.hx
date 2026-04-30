@@ -8,9 +8,8 @@ import flixel.util.FlxColor;
 class FlxRandom
 {
 	/**
-	 * The global base random number generator seed (for deterministic behavior in recordings and saves).
+	 * The global base random number generator seed.
 	 * If you want, you can set the seed with an integer between 1 and 2,147,483,647 inclusive.
-	 * Altering this yourself may break recording functionality!
 	 */
 	public var initialSeed(default, set):Int = 1;
 
@@ -40,7 +39,6 @@ class FlxRandom
 	/**
 	 * Function to easily set the global seed to a new random number.
 	 * Please note that this function is not deterministic!
-	 * If you call it in your game, recording may not function as expected.
 	 *
 	 * @return  The new initial seed.
 	 */
@@ -459,49 +457,4 @@ class FlxRandom
 	static inline var MULTIPLIER:Float = 48271.0;
 
 	static inline var MODULUS:Int = FlxMath.MAX_VALUE_INT;
-
-	#if FLX_RECORD
-	/**
-	 * Internal storage for the seed used to generate the most recent state.
-	 */
-	static var _stateSeed:Int = 1;
-
-	/**
-	 * The seed to be used by the recording requested in FlxGame.
-	 */
-	static var _recordingSeed:Int = 1;
-
-	/**
-	 * Update the seed that was used to create the most recent state.
-	 * Called by FlxGame, needed for replays.
-	 *
-	 * @return  The new value of the state seed.
-	 */
-	@:allow(flixel.FlxGame)
-	static inline function updateStateSeed():Int
-	{
-		return _stateSeed = FlxG.random.currentSeed;
-	}
-
-	/**
-	 * Used to store the seed for a requested recording. If StandardMode is false, this will also reset the global seed!
-	 * This ensures that the state is created in the same way as just before the recording was requested.
-	 *
-	 * @param   StandardMode   If true, entire game will be reset, else just the current state will be reset.
-	 */
-	@:allow(flixel.system.frontEnds.VCRFrontEnd)
-	static inline function updateRecordingSeed(StandardMode:Bool = true):Int
-	{
-		return _recordingSeed = FlxG.random.initialSeed = StandardMode ? FlxG.random.initialSeed : _stateSeed;
-	}
-
-	/**
-	 * Returns the seed to use for the requested recording.
-	 */
-	@:allow(flixel.FlxGame.handleReplayRequests)
-	static inline function getRecordingSeed():Int
-	{
-		return _recordingSeed;
-	}
-	#end
 }
