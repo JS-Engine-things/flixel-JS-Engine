@@ -641,6 +641,14 @@ class FlxSprite extends FlxObject
 		frames = graph.imageFrame;
 		return this;
 	}
+	// Null stuff lol
+    public function makeScaledGraphic(width:Float,height:Float,color:FlxColor = FlxColor.WHITE,unique:Bool = false,?key:String) 
+    {
+        this.makeGraphic(1,1,color,unique,key);
+        scale.set(width,height);
+        updateHitbox();
+        return this;
+    }
 
 	/**
 	 * Called whenever a new graphic is loaded for this sprite (after `loadGraphic()`, `makeGraphic()` etc).
