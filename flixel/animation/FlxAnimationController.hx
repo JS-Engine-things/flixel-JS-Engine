@@ -60,22 +60,14 @@ class FlxAnimationController implements IFlxDestroyable
 	 * A function that has 3 parameters: a string name, a frame number, and a frame index.
 	 */
 	@:deprecated("callback is deprecated, use onFrameChange.add")
-	#if haxe4
 	public var callback:(name:String, frameNumber:Int, frameIndex:Int) -> Void;
-	#else
-	public var callback:String->Int->Int->Void;
-	#end
 
 	/**
 	 * If assigned, will be called each time the current animation finishes.
 	 * A function that has 1 parameter: a string name - animation name.
 	 */
 	@:deprecated('finishCallback is deprecated, use onFinish.add')
-	#if haxe4
 	public var finishCallback:(name:String) -> Void;
-	#else
-	public var finishCallback:String->Void;
-	#end
 
 		/**
 	 * Dispatches each time the current animation's frame changes
