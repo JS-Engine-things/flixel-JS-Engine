@@ -158,6 +158,11 @@ class Console extends Window
 		if (input.text == Console.DEFAULT_TEXT)
 			input.text = "";
 		#end
+
+		// Block keyboard input
+		#if FLX_KEYBOARD
+		FlxG.keys.enabled = false;
+		#end
 	}
 
 	@:access(flixel.FlxGame)
@@ -166,6 +171,11 @@ class Console extends Window
 		#if FLX_DEBUG
 		if (input.text == "")
 			input.text = Console.DEFAULT_TEXT;
+		#end
+
+		// Unblock keyboard input
+		#if FLX_KEYBOARD
+		FlxG.keys.enabled = true;
 		#end
 
 		completionList.close();
