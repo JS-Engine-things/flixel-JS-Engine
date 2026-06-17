@@ -24,6 +24,7 @@ import flixel.util.FlxSpriteUtil;
 import openfl.Vector;
 import openfl.display.BlendMode;
 import openfl.filters.BitmapFilter;
+import openfl.filters.ShaderFilter;
 
 using StringTools;
 
