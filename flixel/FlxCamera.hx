@@ -625,13 +625,14 @@ class FlxCamera extends FlxBasic
 	public function removeShader(shader:FlxShader):Bool
 	{
 		if (filters == null) filters = [];
-		for (f in filters) {
-			if (f is ShaderFilter) {
-				var sf = cast(f, ShaderFilter);
-				if (sf.shader == shader) {
-					filters.remove(f);
-					return true;
-				}
+		for (f in filters)
+		{
+			var sf:ShaderFilter = Std.downcast(f, ShaderFilter);
+
+			if (sf != null && sf.shader == shader)
+			{
+				filters.remove(f);
+				return true;
 			}
 		}
 		return false;

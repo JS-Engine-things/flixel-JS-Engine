@@ -119,6 +119,9 @@ class Watch extends Window
 
 	override public function update():Void
 	{
+		// Skip processing because all children are invisible!
+		if (!this.visible || !this.parent.visible) return;
+	
 		for (entry in entries)
 			entry.updateValue();
 	}
