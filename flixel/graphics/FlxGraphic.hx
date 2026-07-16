@@ -472,7 +472,7 @@ class FlxGraphic implements IFlxDestroyable
 		shader = null;
 
 		assetsClass = null;
-		imageFrame = null; // no need to dispose _imageFrame since it exists in imageFrames
+		imageFrame = FlxDestroyUtil.destroy(imageFrame);
 
 		if (frameCollections == null) // no need to destroy frame collections if it's already null
 			return;
