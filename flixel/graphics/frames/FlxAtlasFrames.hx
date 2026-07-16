@@ -252,6 +252,7 @@ class FlxAtlasFrames extends FlxFramesCollection
 
 		var data:Access = new Access(xml.getXml().firstElement());
 
+		final size = FlxRect.get();
 		for (texture in data.nodes.SubTexture)
 		{
 			var name = texture.att.name;
@@ -262,15 +263,16 @@ class FlxAtlasFrames extends FlxFramesCollection
 
 			var rect = FlxRect.get(Std.parseFloat(texture.att.x), Std.parseFloat(texture.att.y), Std.parseFloat(texture.att.width),
 				Std.parseFloat(texture.att.height));
-
-			var size = if (trimmed)
-			{
-				new Rectangle(Std.parseInt(texture.att.frameX), Std.parseInt(texture.att.frameY), Std.parseInt(texture.att.frameWidth),
+var size = if (trimmed)
+{
+	new Rectangle(Std.parseInt(texture.att.frameX), Std.parseInt(texture.att.frameY), Std.parseInt(texture.att.frameWidth),
+		Std.parseInt(texture.att.frameHeight));
+}
 					Std.parseInt(texture.att.frameHeight));
 			}
 			else
 			{
-				new Rectangle(0, 0, rect.width, rect.height);
+		new Rectangle(0, 0, rect.width, rect.height);
 			}
 
 			var angle = rotated ? FlxFrameAngle.ANGLE_NEG_90 : FlxFrameAngle.ANGLE_0;
@@ -283,6 +285,7 @@ class FlxAtlasFrames extends FlxFramesCollection
 
 			frames.addAtlasFrame(rect, sourceSize, offset, name, angle, flipX, flipY);
 		}
+		size.put();
 
 		return frames;
 	}
