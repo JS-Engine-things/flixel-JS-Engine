@@ -6,30 +6,6 @@ package flixel.util;
 class FlxArrayUtil
 {
 	/**
-	 * Sets the length of an array.
-	 *
-	 * @param	array		The array.
-	 * @param	newLength	The length you want the array to have.
-	 */
-	@:generic
-	public static function setLength<T>(array:Array<T>, newLength:Int):Array<T>
-	{
-		if (newLength < 0)
-			return array;
-
-		var oldLength:Int = array.length;
-		var diff:Int = newLength - oldLength;
-		if (diff >= 0)
-			return array;
-
-		diff = -diff;
-		for (i in 0...diff)
-			array.pop();
-
-		return array;
-	}
-
-	/**
 	 * Safely removes an element from an array by swapping it with the last element and calling `pop()`
 	 * (won't do anything if the element is not in the array). This is a lot faster than regular `splice()`,
 	 * but it can only be used on arrays where order doesn't matter.
@@ -133,6 +109,7 @@ class FlxArrayUtil
 		return safeSwapByIndex(array, array.indexOf(item1), array.indexOf(item2));
 	}
 
+	// TODO: Remove this once we're not using flixel-ui anymore
 	/**
 	 * Clears an array structure, but leaves the object data untouched
 	 * Useful for cleaning up temporary references to data you want to preserve.

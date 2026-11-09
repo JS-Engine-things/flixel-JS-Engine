@@ -29,67 +29,6 @@ import openfl.geom.Rectangle;
 
 using flixel.util.FlxColorTransformUtil;
 
-#if html5
-/**
- * BitmapData loaded via @:bitmap is loaded asynchronously, this allows us to apply frame
- * padding to the bitmap once it's loaded rather
- */
-private interface IEmbeddedBitmapData
-{
-	var onLoad:()->Void;
-}
-
-@:keep @:bitmap("assets/images/tile/autotiles.png")
-private class RawGraphicAuto extends BitmapData {}
-class GraphicAuto extends RawGraphicAuto implements IEmbeddedBitmapData
-{
-	static inline var WIDTH = 128;
-	static inline var HEIGHT = 8;
-
-	public var onLoad:()->Void;
-	public function new ()
-	{
-		super(WIDTH, HEIGHT, true, 0xFFffffff, (_)-> if (onLoad != null) onLoad());
-		// Set properties because `@:bitmap` constructors ignore width/height
-		this.width = WIDTH;
-		this.height = HEIGHT;
-	}
-}
-
-@:keep @:bitmap("assets/images/tile/autotiles_alt.png")
-private class RawGraphicAutoAlt extends BitmapData {}
-class GraphicAutoAlt extends RawGraphicAutoAlt implements IEmbeddedBitmapData
-{
-	static inline var WIDTH = 128;
-	static inline var HEIGHT = 8;
-
-	public var onLoad:()->Void;
-	public function new ()
-	{
-		super(WIDTH, HEIGHT, true, 0xFFffffff, (_)-> if (onLoad != null) onLoad());
-		// Set properties because `@:bitmap` constructors ignore width/height
-		this.width = WIDTH;
-		this.height = HEIGHT;
-	}
-}
-
-@:keep @:bitmap("assets/images/tile/autotiles_full.png")
-private class RawGraphicAutoFull extends BitmapData {}
-class GraphicAutoFull extends RawGraphicAutoFull implements IEmbeddedBitmapData
-{
-	static inline var WIDTH = 256;
-	static inline var HEIGHT = 48;
-
-	public var onLoad:()->Void;
-	public function new ()
-	{
-		super(WIDTH, HEIGHT, true, 0xFFffffff, (_)-> if (onLoad != null) onLoad());
-		// Set properties because `@:bitmap` constructors ignore width/height
-		this.width = WIDTH;
-		this.height = HEIGHT;
-	}
-}
-#else
 @:keep @:bitmap("assets/images/tile/autotiles.png")
 class GraphicAuto extends BitmapData {}
 
@@ -98,7 +37,6 @@ class GraphicAutoAlt extends BitmapData {}
 
 @:keep @:bitmap("assets/images/tile/autotiles_full.png")
 class GraphicAutoFull extends BitmapData {}
-#end
 
 /**
  * This is a traditional tilemap display and collision class. It takes a string of comma-separated
@@ -168,14 +106,6 @@ class FlxTypedTilemap<Tile:FlxTile> extends FlxBaseTilemap<Tile>
 	 * @since 5.0.0
 	 */
 	public static var defaultFramePadding = 2;
-
-	/**
-	 * DISABLED, the static var `defaultFramePadding` fixes the tearing issue in a more performant
-	 * and visually appealing way.
-	 */
-	@:deprecated("useScaleHaxe is no longer needed")
-	@:noCompletion
-	public var useScaleHack:Bool = false;
 	
 	
 	/**

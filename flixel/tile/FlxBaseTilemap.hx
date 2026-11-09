@@ -862,7 +862,7 @@ class FlxBaseTilemap<Tile:FlxObject> extends FlxObject
 		var i:Int = 0;
 		var l:Int = _data.length;
 		var data:Array<Int> = new Array();
-		FlxArrayUtil.setLength(data, l);
+		data.resize(l);
 
 		while (i < l)
 		{
