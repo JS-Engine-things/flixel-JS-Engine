@@ -211,27 +211,41 @@ class FlxTypedGroup<T:FlxBasic> extends FlxBasic
 		// This can be expanded on later by adding checks for FlxObject (which contains the Y variable)
 		// Then its possible to add y sorting too.
 
-		if (_drawMemberIndices.length != members.length)
-			_drawMemberIndices = [for (i in 0...members.length) i]; // Recreate the array with the new member length
-
-		if (renderOrderMode & FlxRenderingMode.BY_RENDERORDER != 0)
-			_drawMemberIndices.sort((a, b) ->
-			{
-				var mA = members[a];
-				var mB = members[b];
-
-				if (mA == null && mB == null) return 0;
-				if (mA == null) return 1;
-				if (mB == null) return -1;
-
-				return FlxSort.byValues(FlxSort.ASCENDING, members[a].renderOrder, members[b].renderOrder);
-			});
-
-		for (i in _drawMemberIndices)
+		try 
 		{
-			var basic = members[i];
-			if (basic != null && basic.exists && basic.visible)
-				basic.draw();
+			if (_drawMemberIndices == null || _drawMemberIndices.length != members.length)
+				_drawMemberIndices = [for (i in 0...members.length) i]; // Recreate the array with the new member length
+
+			if (renderOrderMode & FlxRenderingMode.BY_RENDERORDER != 0)
+				_drawMemberIndices.sort((a, b) ->
+				{
+					final mA = members[a], mB = members[b];
+
+					if (mA == null && mB == null) return 0;
+					if (mA == null) return 1;
+					if (mB == null) return -1;
+
+					return FlxSort.byValues(FlxSort.ASCENDING, members[a].renderOrder, members[b].renderOrder);
+				});
+
+			for (i in _drawMemberIndices)
+			{
+				final basic = members[i];
+				if (basic != null && basic.exists && basic.visible)
+					basic.draw();
+			}
+		}
+		catch(e)
+		{
+			trace(e);
+			if (members == null)
+				return;
+
+			for (basic in members)
+			{
+				if (basic != null && basic.exists && basic.visible)
+					basic.draw();
+			}
 		}
 		#else
 		for (basic in members)
